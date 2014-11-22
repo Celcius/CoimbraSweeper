@@ -4,14 +4,19 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.tweens.misc.ColorTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
+import flixel.ui.FlxBar;
+import flixel.util.FlxPoint;
 
 /**
  * A FlxState which can be used for the actual gameplay.
  */
 class PlayState extends FlxState
 {
+
+	
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -19,8 +24,11 @@ class PlayState extends FlxState
 	{
 		super.create();
 
-        var text:FlxText = new FlxText(0,0, 100, "Let's Play!");
-        add(text);
+        var text:FlxText = new FlxText(10, 10, 100, "Let's Play!");
+		add(text);
+		Reg.rageBar = new RageBar(400,350);
+		add(Reg.rageBar);
+		Reg.rageBar.incrementRage();
 	}
 	
 	/**
