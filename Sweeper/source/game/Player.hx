@@ -14,6 +14,7 @@ class Player extends FlxSprite
 
 	private var anchor:FlxSprite;
 	private var oppositeAnchor:FlxPoint;
+	var isStopped : Bool = false;
 	
 	public function new(X:Float, Y:Float)
 	{
@@ -23,11 +24,15 @@ class Player extends FlxSprite
 		anchor = new FlxSprite(anchorX, anchorY);
 		anchor.makeGraphic(2, 2, 0xFFFF0000);
 		oppositeAnchor = new FlxPoint(x + width, y + height);
+		Reg.player = this;
 	}
 
 	override public function update():Void
 	{
 		super.update();
+		
+		if (isStopped)
+			return;
 
 		// left right movement
 		if (FlxG.keys.anyPressed(["A", "LEFT", "D", "RIGHT"]))
@@ -109,6 +114,13 @@ class Player extends FlxSprite
 	public var anchorY(get, never):Float;
 	function get_anchorY() {
 		return y + 3*(height/4)+10;
+	}
+	
+	public function setStopped(stopped : Bool):Void
+	{
+		isStopped = stopped;
+		if(stopped)
+			this.velocity  = new FlxPoint(0, 0);
 	}
 
 }
