@@ -9,7 +9,7 @@ class Tree extends Tile
 
 	public function new (X:Float , Y:Float)
 	{
-		super(X,Y-30, "bomb");
+		super(X,Y-30, "tree");
 		loadGraphic( "assets/images/tiles/Tree_Tall.png", true, 101, 171);
 
 		grassSprite = new Grass(X,Y);
