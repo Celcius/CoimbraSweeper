@@ -5,7 +5,8 @@ import flixel.FlxSprite;
 class Tile extends FlxSprite
 {
 
-    private var className:String = "";
+    public var className:String = "";
+    public var number:Int;
 
     private var _underSprite:Tile;
 
