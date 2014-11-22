@@ -80,7 +80,7 @@ class Player extends FlxSprite
 					horMove = horDiff;
 			}
 
-			if (horMove != 0 || verMove != 0)
+			if (horMove == 0 && verMove == 0)
 			{
 				// left movement
 				if (FlxG.keys.anyPressed(["A", "LEFT"]))
