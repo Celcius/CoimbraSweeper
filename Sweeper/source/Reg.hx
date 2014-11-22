@@ -9,6 +9,8 @@ import flixel.util.FlxSave;
  */
 class Reg
 {
+	
+	public static var rageBar:RageBar;
 	/**
 	 * Generic levels Array that can be used for cross-state stuff.
 	 * Example usage: Storing the levels of a platformer.
