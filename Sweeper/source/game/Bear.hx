@@ -21,6 +21,8 @@ class Bear extends FlxSprite
 	public static var EAST : FlxPoint  = new FlxPoint(1, 0);
 	public static var SPEED : Float = 5;
 
+	private var anchor:FlxSprite;
+
 	public var isStopped: Bool = false;
 	public var canMove:Bool = true;
 
@@ -44,7 +46,7 @@ class Bear extends FlxSprite
 			this.scale.x = 1;
 		else if (horMove < 0)
 			this.scale.x = -1;
-			
+
 		updateDirection(duration, horMove, verMove);
 
 		Reg.rageBar.incrementRage();
@@ -109,6 +111,17 @@ class Bear extends FlxSprite
 
 		}
 
+	}
+
+	public var anchorX(get, never):Float;
+
+	function get_anchorX() {
+		return x + width/2;
+	}
+
+	public var anchorY(get, never):Float;
+	function get_anchorY() {
+		return y + height-5;
 	}
 
 }

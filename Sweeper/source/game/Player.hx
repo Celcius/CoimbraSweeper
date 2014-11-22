@@ -118,32 +118,32 @@ class Player extends FlxSprite
 	{
 		if (horMove == 0 && verMove == 0)
 			return false;
-		
-		var aTile:Tile = Game.instance.getTileFromWorld(this.x + horMove, this.y + verMove);
-		
+
+		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
+
 		if (aTile.blocking)
 		{
 			trace("SELF BLOCK");
 			return false;
 		}
-			
+
 		var bear:Bear = Reg.bear;
-		var bTile:Tile = Game.instance.getTileFromWorld(bear.x, bear.y);
-			
+		var bTile:Tile = Game.instance.getTileFromWorld(bear.anchorX, bear.anchorY);
+
 		if (aTile == bTile)
 		{
 			trace("FOUND BEAR");
-			
-			var cTile:Tile = Game.instance.getTileFromWorld(bear.x + horMove, bear.y + verMove);
+
+			var cTile:Tile = Game.instance.getTileFromWorld(bear.anchorX + horMove, bear.anchorY + verMove);
 			if (cTile.blocking)
 			{
 				trace("BEAR BLOCK");
 				return false;
 			}
-			
+
 			bear.redirectBear(duration, horMove, verMove);
 		}
-		
+
 		return true;
 	}
 
