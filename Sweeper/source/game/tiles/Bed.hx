@@ -12,6 +12,8 @@ class Bed extends Tile
 	{
 		super(X,Y, "bed");
 		loadGraphic( "assets/images/tiles/bed.png", true, 101, 171);
+		
+		this.blocking = true;
 	}
 
 	override public function draw():Void

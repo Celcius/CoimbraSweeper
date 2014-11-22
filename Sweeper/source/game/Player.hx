@@ -62,10 +62,11 @@ class Player extends FlxSprite
 		var horMove:Float = 0.0;
 		var verMove:Float = 0.0;
 		
-		
+		trace("" + FlxG.elapsed + " - update");
 		
 		if (canMove)
 		{
+			trace("" + FlxG.elapsed + " - and canMove");
 			// left movement
 			if (FlxG.keys.anyPressed(["A", "LEFT"]))
 			{
@@ -85,7 +86,7 @@ class Player extends FlxSprite
 			}
 			
 			// check if should move - create action to move if yes
-			if (horMove != 0 || verMove != 0)
+			if ( this.shouldMove(horMove, verMove, duration) )
 			{
 				canMove = false;
 				var xPath = this.x + horMove;
@@ -93,8 +94,6 @@ class Player extends FlxSprite
 
 				Actuate.tween(this, duration, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
 			}
-		
-			handleCollision(duration, horMove, verMove);
 
 			anchor.x = anchorX;
 			anchor.y = anchorY;
@@ -118,27 +117,37 @@ class Player extends FlxSprite
 		this.canMove = true;
 	}
 
-	public function handleCollision(duration:Float, horMove:Float, verMove:Float):Void
+	private function shouldMove(horMove:Float, verMove:Float, duration:Float ):Bool
 	{
-		oppositeAnchor.x = x + width;
-		oppositeAnchor.y = y + height;// = new FlxPoint(x + width, y + height);
-
-		var bear:Bear = Reg.bear;
-		if (bear != null && FlxG.collide(this, bear))
+		if (horMove == 0 && verMove == 0)
+			return false;
+		
+		var aTile:Tile = Game.instance.getTileFromWorld(this.x + horMove, this.y + verMove);
+		
+		if (aTile.blocking)
 		{
-			if (verMove > 0 && y <= bear.y + bear.height ){
-				bear.redirectBear(Bear.NORTH, duration, horMove, verMove);
-			}
-			else if (verMove < 0 && oppositeAnchor.y >= bear.y ){
-				bear.redirectBear(Bear.SOUTH, duration, horMove, verMove);
-			}
-			else if (horMove < 0 && x >= bear.x + bear.width){
-				bear.redirectBear(Bear.WEST, duration, horMove, verMove);
-			}
-			else if (horMove > 0 && oppositeAnchor.x <= bear.x){
-				bear.redirectBear(Bear.EAST, duration, horMove, verMove);
-			}
+			trace("SELF BLOCK");
+			return false;
 		}
+			
+		var bear:Bear = Reg.bear;
+		var bTile:Tile = Game.instance.getTileFromWorld(bear.x, bear.y);
+			
+		if (aTile == bTile)
+		{
+			trace("FOUND BEAR");
+			
+			var cTile:Tile = Game.instance.getTileFromWorld(bear.x + horMove, bear.y + verMove);
+			if (cTile.blocking)
+			{
+				trace("BEAR BLOCK");
+				return false;
+			}
+			
+			bear.redirectBear(duration, horMove, verMove);
+		}
+		
+		return true;
 	}
 
 	override public function draw():Void
