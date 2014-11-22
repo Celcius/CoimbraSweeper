@@ -3,6 +3,7 @@ package game;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxCamera;
 import flixel.util.FlxPoint;
@@ -11,11 +12,15 @@ import game.tiles.*;
 
 class Game extends FlxState {
 
+    public static var instance:Game;
+
 	private var player:Player;
 
     public static var BLOCK_WIDTH:Int = 101;
     public static var BLOCK_HEIGHT:Int = 83;
 
+    private var gridW:Int;
+    private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
 
@@ -25,11 +30,16 @@ class Game extends FlxState {
 
     public static var _gridGroup:FlxSpriteGroup;
 
+    public var playerColliderGroup:FlxGroup;
+
 
     public function new(level:Level)
     {
         super();
         _level = level;
+        instance = this;
+
+        playerColliderGroup = new FlxGroup();
     }
 
     override public function create():Void
@@ -54,7 +64,7 @@ class Game extends FlxState {
 
 		drawGrid(_level.getGrid());
         populateNumberGrid();
-		
+
 		createRageBar();
 
 		FlxG.camera.setBounds(0 , 3 * BLOCK_HEIGHT / 5, _grid[0].length * BLOCK_WIDTH, _grid.length * BLOCK_HEIGHT, true);
@@ -70,6 +80,7 @@ class Game extends FlxState {
     private function drawGrid(grid:Array<String>):Void
     {
         _grid = new Array<Array<Tile>>();
+        gridW = grid.length;
         for( i in 0... grid.length)
         {
             var row = grid[i];
@@ -91,6 +102,7 @@ class Game extends FlxState {
 					GMAPkey == 'R')
 					createBear(j, i, GMAPkey);
             }
+            gridH = row.length;
         }
     }
 
@@ -102,27 +114,27 @@ class Game extends FlxState {
             for ( j in 0... _row.length )
             {
                 var tile:Tile = _grid[i][j];
-				
+
 				var numBombs:Int = countBombs(i, j);
 				tile.number = numBombs;
             }
         }
     }
-	
+
 	private function countBombs(i:Int, j:Int):Int
 	{
 		var numBombs:Int = 0;
-		
+
 		var prevLine:Array<Tile> = null;
 		if (i > 0)
 			prevLine = _grid[i - 1];
-		
+
 		var thisLine = _grid[i];
-			
+
 		var nextLine:Array<Tile> = null;
 		if (i < _grid.length - 1)
 			nextLine = _grid[i + 1];
-			
+
 		// i - 1
 		if (prevLine != null)
 		{
@@ -135,7 +147,7 @@ class Game extends FlxState {
 			if (j < prevLine.length - 1)
 				numBombs += isBomb(prevLine[j+1]) ? 1 : 0;
 		}
-		
+
 		// i
 		// j - 1
 		if (j > 0)
@@ -156,26 +168,26 @@ class Game extends FlxState {
 			if (j < nextLine.length - 1)
 				numBombs += isBomb(nextLine[j+1]) ? 1 : 0;
 		}
-		
+
 		return numBombs;
 	}
-	
+
 	private function isBomb(tile:Tile):Bool
 	{
 		if (tile == null)
 			return false;
-		
+
 		if (tile.className == "bomb")
 			return true;
-			
+
 		return false;
 	}
 
-    public static function getGridX(X:Float):Float
+    public function getGridX(X:Float):Float
     {
         return Math.floor( X/BLOCK_WIDTH);
     }
-    public static function getGridY(Y:Float):Float
+    public function getGridY(Y:Float):Float
     {
         return Math.floor((Y+23)/BLOCK_HEIGHT);
     }
@@ -189,13 +201,22 @@ class Game extends FlxState {
 		return Math.floor(Y * BLOCK_HEIGHT);
 	}
 
+    public function getTile(X:Int, Y:Int):game.Tile
+    {
+        if (X >= 0 && X < gridW && Y >= 0 && Y < gridH){
+            return _grid[Y][X];
+        }
+        return null;
+    }
+
     /**
 	 * Function that is called once every frame.
 	 */
     override public function update():Void
     {
-        trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
+        //trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
+        FlxG.collide(player, playerColliderGroup);
         super.update();
     }
 
@@ -219,10 +240,9 @@ class Game extends FlxState {
 		
 		Reg.bear = new Bear(dir);
 		add(Reg.bear);
-		
+
 		Reg.bear.x = getWorldX(X);
 		Reg.bear.y = getWorldY(Y);
-	
 	}
 	
 	private function createPlayer(X:Int, Y:Int)
