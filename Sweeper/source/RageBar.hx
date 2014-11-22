@@ -13,7 +13,7 @@ class RageBar extends FlxGroup
 	private var rageBar:FlxBar;
 	private var MAX_RAGE:Int = 9; 
 	private var elapsed:Float = 0;
-	private var MAX_ELAPSED:Float = 4;
+	private var MAX_ELAPSED:Float = 3;
 /**
 	 * Function that is called up when to state is created to set it up. 
 	 */

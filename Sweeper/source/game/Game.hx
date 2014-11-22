@@ -44,6 +44,8 @@ class Game extends FlxState {
 
         drawGrid(_level.getGrid());
         populateNumberGrid();
+		createRageBar();
+		createBear();
 
         super.create();
     }
@@ -77,4 +79,17 @@ class Game extends FlxState {
     {
         super.update();
     }
+	
+	private function createRageBar():Void
+	{
+		Reg.rageBar = new RageBar(400,350);
+		add(Reg.rageBar);
+	}
+	
+	private function createBear():Void
+	{
+		Reg.bear = new Bear();
+		add(Reg.bear);
+		
+	}
 }
