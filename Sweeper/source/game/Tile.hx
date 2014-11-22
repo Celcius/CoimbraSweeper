@@ -4,9 +4,17 @@ import flixel.FlxSprite;
 
 class Tile extends FlxSprite
 {
-	public function new(X:Float, Y:Float, tilename:String)
+
+    private var className:String = "";
+
+    private var _underSprite:Tile;
+
+	public function new(X:Float, Y:Float, name:String)
 	{
 		super (X, Y);
-		loadGraphic( "assets/images/tiles/"+tilename+".png", true, 101, 171);
+		className = name;
+
+
+		loadGraphic( "assets/images/tiles/Stone_Block.png", true, 101, 171);
 	}
 }
