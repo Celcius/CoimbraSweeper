@@ -88,9 +88,6 @@ class Game extends FlxState {
 
 		createRageBar();
 
-		player = new Player(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 1.5);
-		playerLayer.add(player);
-
 		_gameOver = false;
 
 		FlxG.camera.setBounds(0 , 3 * BLOCK_HEIGHT / 5, _grid[0].length * BLOCK_WIDTH, _grid.length * BLOCK_HEIGHT, true);
@@ -304,7 +301,7 @@ class Game extends FlxState {
 	private function createPlayer(X:Int, Y:Int)
 	{
 		player = new Player(getWorldX(X), getWorldY(Y));
-		add(player);
+		playerLayer.add(player);
 	}
 
 	public function killPlayerBear():Void
