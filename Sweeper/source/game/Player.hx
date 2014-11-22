@@ -2,6 +2,7 @@ package game;
 
 import flixel.FlxSprite;
 import flixel.FlxG;
+import flixel.util.FlxPoint;
 
 /**
  * ...
@@ -12,7 +13,11 @@ class Player extends FlxSprite
 	private static var SPEED = 200;
 
 	private var anchor:FlxSprite;
+
 	public var collider:FlxSprite;
+	public var colliderOffset:FlxPoint;
+
+	private var oppositeAnchor:FlxPoint;
 
 	public function new(X:Float, Y:Float)
 	{
@@ -20,10 +25,16 @@ class Player extends FlxSprite
 		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, 101, 171);
 
 		anchor = new FlxSprite(anchorX, anchorY);
+
 		anchor.makeGraphic(2,2, 0xFFFF0000);
 
+		colliderOffset = new FlxPoint(10, 51);
 		collider = new FlxSprite(0,0);
 		collider.makeGraphic(80, 81, 0xFFFF0000);
+
+		anchor.makeGraphic(2, 2, 0xFFFF0000);
+		oppositeAnchor = new FlxPoint(x + width, y + height);
+
 	}
 
 	override public function update():Void
@@ -78,19 +89,23 @@ class Player extends FlxSprite
 			this.velocity.y = 0;
 		}
 
-		collider.x = x + (width - collider.width)*0.5;
-		collider.y = y + 51;
+		collider.x = x + colliderOffset.x;
+		collider.y = y + colliderOffset.y;
 
-		if (Reg.bear != null && FlxG.collide(this.collider, Reg.bear))
+		var bear:Bear = Reg.bear;
+		if (bear != null && FlxG.collide(this.collider, bear))
 		{
-			if (FlxG.keys.anyPressed(["W","UP"]))
-				Reg.bear.redirectBear(Bear.NORTH);
-			else if (FlxG.keys.anyPressed(["S","DOWN"]))
-				Reg.bear.redirectBear(Bear.SOUTH);
-			else if (FlxG.keys.anyPressed(["A","LEFT"]))
-				Reg.bear.redirectBear(Bear.WEST);
-			else if (FlxG.keys.anyPressed(["D","RIGHT"]))
-				Reg.bear.redirectBear(Bear.EAST);
+			if (FlxG.keys.anyPressed(["W", "UP"]) && y <= bear.y + bear.height )
+				bear.redirectBear(Bear.NORTH);
+			else if (FlxG.keys.anyPressed(["S","DOWN"]) && oppositeAnchor.y >= bear.y )
+				bear.redirectBear(Bear.SOUTH);
+			else if (FlxG.keys.anyPressed(["A","LEFT"]) && x >= bear.x + bear.width)
+				bear.redirectBear(Bear.WEST);
+			else if (FlxG.keys.anyPressed(["D","RIGHT"]) && oppositeAnchor.x <= bear.x)
+				bear.redirectBear(Bear.EAST);
+
+			x = collider.x - colliderOffset.x;
+			y = collider.y - colliderOffset.y;
 		}
 
 
