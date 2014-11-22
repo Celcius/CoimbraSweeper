@@ -3,6 +3,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.util.FlxPoint;
+import game.tiles.Bed;
 import haxe.macro.Expr.Var;
 import game.tiles.Water;
 
@@ -46,11 +47,6 @@ class Bear extends FlxSprite
 	{
 		if (isStopped)
 			return;
-
-		if (horMove > 0)
-			this.scale.x = 1;
-		else if (horMove < 0)
-			this.scale.x = -1;
 
 		updateDirection(duration, horMove, verMove);
 
@@ -101,13 +97,16 @@ class Bear extends FlxSprite
 	{
 		super.update();
 
-		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(this.x + this.width / 2), Game.instance.getGridY(this.y + this.height / 2));
+		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY));
 		if (Game.instance.isBomb( tile ))
 		{
 			Game.instance.killBear();
 		}
 		else if (Game.instance.isBed(tile))
 		{
+			var bed:Bed = cast (tile, Bed);
+			bed.sleep();
+			
 			Game.instance.finishGame();
 		}
 
@@ -123,11 +122,36 @@ class Bear extends FlxSprite
 				case Water.UP: verMove = -verDiff;
 				case Water.DOWN: verMove = verDiff;
 			}
-
-			updateDirection(1.0, horMove, verMove);
-
+			
+			if (shouldMove(horMove, verMove))
+				updateDirection(0.5, horMove, verMove);
 		}
 
+	}
+	
+		private function shouldMove(horMove:Float, verMove:Float):Bool
+	{
+		if (horMove == 0 && verMove == 0)
+			return false;
+
+		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
+
+		if (aTile.blocking)
+		{
+			trace("SELF BLOCK");
+			return false;
+		}
+
+		var player:Player = Reg.player;
+		var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
+
+		if (aTile == bTile)
+		{
+			trace("FOUND PLAYER");
+			return false;
+		}
+
+		return true;
 	}
 
 	public var anchorX(get, never):Float;
