@@ -104,6 +104,11 @@ class Player extends FlxSprite
 		anchor.y = anchorY;
 
 		super.update();
+		
+		if (Game.instance.isBomb( Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY))))
+		{
+			Game.instance.killPlayerMine();
+		}
 	}
 
 	public function handleCollision():Void

@@ -77,5 +77,6 @@ class RageBar extends FlxGroup
 				elapsed = 0;
 				decrementRage();
 			}
+			
 	}
 }
