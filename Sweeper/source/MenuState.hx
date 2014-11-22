@@ -12,13 +12,24 @@ import flixel.util.FlxMath;
  */
 class MenuState extends FlxState
 {
+
+    private var _btnPlay:FlxButton;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void
 	{
 		super.create();
+
+        _btnPlay = new FlxButton(0,0, "Play", clickPlay);
+        add(_btnPlay);
 	}
+
+    private function clickPlay():Void
+    {
+        FlxG.switchState(new PlayState());
+    }
 	
 	/**
 	 * Function that is called when this state is destroyed - you might want to 
