@@ -30,10 +30,12 @@ class Bear extends FlxSprite
 	{
 		super();
 		Reg.bear = this;
-		loadGraphic("assets/images/bear_sheet.png", false, 96, 136);
+		loadGraphic("assets/images/bear_sheet.png", false, 91, 136);
 		
 		updateDirection(direction, 0, 0, 0);
 		
+		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9], 5, true);
+		this.animation.play("iddle");
 		this.immovable = true;
 	}
 
@@ -49,7 +51,6 @@ class Bear extends FlxSprite
 		if (Reg.rageBar.isMaxRage())
 		{
 			Reg.rageBar.shouldUpdate(false);
-			this.frame = framesData.frames[1];
 
 			 Reg.game.killPlayerBear();
 

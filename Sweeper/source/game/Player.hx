@@ -35,8 +35,10 @@ class Player extends FlxSprite
 		
 		
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
-		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
-
+		loadGraphic("assets/images/ranger_sheet.png", false, 92, 99);
+				
+		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9,10,11,12], 5, true);
+		this.animation.play("iddle");
 		anchor = new FlxSprite(anchorX, anchorY);
 		anchor.makeGraphic(2,2, 0xFFFF0000);
 		anchor.makeGraphic(2, 2, 0xFFFF0000);
