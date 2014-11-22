@@ -1,5 +1,6 @@
 package game.tiles;
 import game.Tile;
+import flixel.FlxSprite;
 
 /**
  * ...
@@ -7,18 +8,22 @@ import game.Tile;
  */
 class Bed extends Tile
 {
-
+	private var bedSprite:FlxSprite;
 	public function new (X:Float , Y:Float)
 	{
 		super(X,Y, "bed");
+		loadGraphic( "assets/images/tiles/Grass_Block.png", true, 101, 171);
 
-		loadGraphic("assets/images/bear_sheet.png", false, 91, 136);
+		bedSprite = new FlxSprite(x+5,y - 50);
+		bedSprite.loadGraphic("assets/images/bed_sheet.png", false, 89, 176);
+		bedSprite.animation.add("iddle", [0], 5, true);
+		bedSprite.animation.add("sleep", [1,2,3,4,5,6,7,8,9,10,11,12,13], 5, true);
+		bedSprite.animation.play("iddle");
 		
-		this.animation.add("iddle", [0], 5, true);
-		this.animation.add("sleep", [1,2,3,4,5,6,7,8,9,10,11,12,13,14], 5, true);
-		this.animation.play("iddle");
+		Game.instance.playerLayer.add(bedSprite);
 		
-		this.blocking = true;
+		this.blocking = false;
+		
 	}
 
 	override public function draw():Void
@@ -28,6 +33,7 @@ class Bed extends Tile
 	
 	public function sleep() : Void
 	{
-		this.animation.play("sleep");
+		bedSprite.animation.play("sleep");
 	}
+	
 }

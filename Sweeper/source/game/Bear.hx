@@ -106,6 +106,7 @@ class Bear extends FlxSprite
 		{
 			var bed:Bed = cast (tile, Bed);
 			bed.sleep();
+			
 			Game.instance.finishGame();
 		}
 

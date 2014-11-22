@@ -76,6 +76,9 @@ class Game extends FlxState {
 
 	function loadLevel(levelIndex:Int)
 	{
+	    instance = this;
+		Reg.game = this;
+		
 		for ( member in members)
 			remove(member);
 
@@ -149,7 +152,7 @@ class Game extends FlxState {
             for ( j in 0...row.length )
             {
 				var GMAPkey = row.charAt(j);
-                var classType= GMAP.get(GMAPkey);
+                var classType = GMAP.get(GMAPkey);
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
@@ -390,7 +393,10 @@ class Game extends FlxState {
 			Reg.bear.setStopped(true);
 			Reg.player.setStopped(true);
 
-
+			remove(Reg.bear);
+			Reg.bear.destroy();
+			Reg.bear = null;
+			
 			endScreenLabel("You put the bear to sleep!\nFor now...", "Press Space...");
 			_levelFinished = true;
 		}
