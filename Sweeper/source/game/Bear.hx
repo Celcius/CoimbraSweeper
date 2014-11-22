@@ -26,12 +26,25 @@ class Bear extends FlxSprite
 		super();
 		loadGraphic("assets/images/bear_sheet.png", false, 96, 136);
 		
-		retirectBear(direction)
+		updateDirection(direction);
 		
 		this.immovable = true;
 	}
 
 	public function redirectBear(newDir:FlxPoint)
+	{
+		updateDirection(newDir);
+
+		Reg.rageBar.incrementRage();
+
+		if (Reg.rageBar.isMaxRage())
+		{
+			Reg.rageBar.shouldUpdate(false);
+			this.frame = framesData.frames[1];
+		}
+	}
+	
+	public function updateDirection(newDir:FlxPoint)
 	{
 		this.acceleration = new FlxPoint(0,0);
 		this.dir = newDir;
@@ -41,14 +54,6 @@ class Bear extends FlxSprite
 			this.scale.x = -1;
 		if (this.velocity.x > 0)
 			this.scale.x = 1;
-
-		Reg.rageBar.incrementRage();
-
-		if (Reg.rageBar.isMaxRage())
-		{
-			Reg.rageBar.shouldUpdate(false);
-			this.frame = framesData.frames[1];
-		}
 	}
 
 }
