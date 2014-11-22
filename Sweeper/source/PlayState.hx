@@ -26,9 +26,7 @@ class PlayState extends FlxState
 
         var text:FlxText = new FlxText(10, 10, 100, "Let's Play!");
 		add(text);
-		Reg.rageBar = new RageBar(400,350);
-		add(Reg.rageBar);
-		Reg.rageBar.incrementRage();
+	
 	}
 	
 	/**
