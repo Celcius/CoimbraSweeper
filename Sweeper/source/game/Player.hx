@@ -25,15 +25,15 @@ class Player extends FlxSprite
 
 	var isStopped : Bool = false;
 	var canMove:Bool = true;
-	
+
 	private var SPRITE_WIDTH = 68;
 	private var SPRITE_HEIGHT = 78;
 
 
 	public function new(X:Float, Y:Float)
 	{
-		
-		
+
+
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
 		loadGraphic("assets/images/ranger_sheet.png", false, 92, 99);
 				
@@ -57,15 +57,13 @@ class Player extends FlxSprite
 			return;
 
 		var duration:Float = 0.5;
-		
+
 		var horDiff:Float = Game.BLOCK_WIDTH;
 		var verDiff:Float = Game.BLOCK_HEIGHT;
-		
+
 		var horMove:Float = 0.0;
 		var verMove:Float = 0.0;
-		
-		
-		
+
 		if (canMove)
 		{
 			// left movement
@@ -85,9 +83,9 @@ class Player extends FlxSprite
 			{
 				verMove = verDiff;
 			}
-			
+
 			// check if should move - create action to move if yes
-			if (horMove != 0 || verMove != 0)
+			if ( this.shouldMove(horMove, verMove, duration) )
 			{
 				canMove = false;
 				var xPath = this.x + horMove;
@@ -95,8 +93,6 @@ class Player extends FlxSprite
 
 				Actuate.tween(this, duration, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
 			}
-		
-			handleCollision(duration, horMove, verMove);
 
 			anchor.x = anchorX;
 			anchor.y = anchorY;
@@ -114,33 +110,43 @@ class Player extends FlxSprite
 			Game.instance.killPlayerMine();
 		}
 	}
-	
+
 	public function setCanMove()
 	{
 		this.canMove = true;
 	}
 
-	public function handleCollision(duration:Float, horMove:Float, verMove:Float):Void
+	private function shouldMove(horMove:Float, verMove:Float, duration:Float ):Bool
 	{
-		oppositeAnchor.x = x + width;
-		oppositeAnchor.y = y + height;// = new FlxPoint(x + width, y + height);
+		if (horMove == 0 && verMove == 0)
+			return false;
+
+		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
+
+		if (aTile.blocking)
+		{
+			trace("SELF BLOCK");
+			return false;
+		}
 
 		var bear:Bear = Reg.bear;
-		if (bear != null && FlxG.collide(this, bear))
+		var bTile:Tile = Game.instance.getTileFromWorld(bear.anchorX, bear.anchorY);
+
+		if (aTile == bTile)
 		{
-			if (verMove > 0 && y <= bear.y + bear.height ){
-				bear.redirectBear(Bear.NORTH, duration, horMove, verMove);
+			trace("FOUND BEAR");
+
+			var cTile:Tile = Game.instance.getTileFromWorld(bear.anchorX + horMove, bear.anchorY + verMove);
+			if (cTile.blocking)
+			{
+				trace("BEAR BLOCK");
+				return false;
 			}
-			else if (verMove < 0 && oppositeAnchor.y >= bear.y ){
-				bear.redirectBear(Bear.SOUTH, duration, horMove, verMove);
-			}
-			else if (horMove < 0 && x >= bear.x + bear.width){
-				bear.redirectBear(Bear.WEST, duration, horMove, verMove);
-			}
-			else if (horMove > 0 && oppositeAnchor.x <= bear.x){
-				bear.redirectBear(Bear.EAST, duration, horMove, verMove);
-			}
+
+			bear.redirectBear(duration, horMove, verMove);
 		}
+
+		return true;
 	}
 
 	override public function draw():Void
