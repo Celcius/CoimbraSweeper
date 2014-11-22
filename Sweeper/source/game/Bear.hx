@@ -74,4 +74,14 @@ class Bear extends FlxSprite
 		
 	}
 	
+	public override function update() : Void
+	{
+		super.update();
+					
+	if (Game.instance.isBomb( Game.instance.getTile(Game.instance.getGridX(this.x + this.width/2), Game.instance.getGridY(this.y + this.height/2))))
+		{
+			Game.instance.killBear();
+		}
+	}
+	
 }

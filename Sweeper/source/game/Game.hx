@@ -104,7 +104,7 @@ class Game extends FlxState {
     private function drawGrid(grid:Array<String>):Void
     {
         _grid = new Array<Array<Tile>>();
-        gridW = grid.length;
+        gridH = grid.length;
         for( i in 0... grid.length)
         {
             var row = grid[i];
@@ -128,7 +128,7 @@ class Game extends FlxState {
 					createBear(j, i, GMAPkey);
 
             }
-            gridH = row.length;
+            gridW = row.length;
         }
     }
 
@@ -198,7 +198,7 @@ class Game extends FlxState {
 		return numBombs;
 	}
 
-	private function isBomb(tile:Tile):Bool
+	public function isBomb(tile:Tile):Bool
 	{
 		if (tile == null)
 			return false;
@@ -209,13 +209,13 @@ class Game extends FlxState {
 		return false;
 	}
 
-    public function getGridX(X:Float):Float
+    public function getGridX(X:Float):Int
     {
         return Math.floor( X/BLOCK_WIDTH);
     }
-    public function getGridY(Y:Float):Float
+    public function getGridY(Y:Float):Int
     {
-        return Math.floor((Y+23)/BLOCK_HEIGHT);
+        return Math.floor((Y-3 * BLOCK_HEIGHT / 5)/BLOCK_HEIGHT);
     }
 
 	public static function getWorldX(X:Int):Float
@@ -245,7 +245,7 @@ class Game extends FlxState {
 	 */
     override public function update():Void
     {
-        //trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
+        trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
 		if (_gameOver && FlxG.keys.anyPressed(["R"]))
 		{
