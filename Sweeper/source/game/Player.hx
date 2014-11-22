@@ -22,7 +22,7 @@ class Player extends FlxSprite
 	public function new(X:Float, Y:Float)
 	{
 		super(X, Y);
-		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, 78, 81);
+		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, 68, 78);
 
 		anchor = new FlxSprite(anchorX, anchorY);
 
@@ -102,11 +102,9 @@ class Player extends FlxSprite
 		var bear:Bear = Reg.bear;
 		if (bear != null && FlxG.collide(this, bear))
 		{
-			FlxG.log.notice("colliding");
 			if (FlxG.keys.anyPressed(["W", "UP"]) && y <= bear.y + bear.height ){
 				bear.redirectBear(Bear.NORTH);
-				if (velocity.y < 0) velocity.y = 0;
-				trace(velocity.y);
+				//if (velocity.y < 0) velocity.y = 0;
 			}
 			else if (FlxG.keys.anyPressed(["S","DOWN"]) && oppositeAnchor.y >= bear.y ){
 				bear.redirectBear(Bear.SOUTH);

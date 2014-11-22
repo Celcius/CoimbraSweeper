@@ -1,10 +1,13 @@
 package game;
 
+import flixel.util.FlxSort;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.group.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.FlxObject;
 import flixel.FlxCamera;
 import game.levels.Level;
 import game.tiles.*;
@@ -31,12 +34,24 @@ class Game extends FlxState {
 
     public var playerColliderGroup:FlxGroup;
 
+    public var layers:FlxGroup;
+    public var groundLayer:FlxGroup;
+    public var playerLayer:FlxSpriteGroup;
+    public var topLayer:FlxGroup;
+
 
     public function new(level:Level)
     {
         super();
         _level = level;
         instance = this;
+
+        groundLayer = new FlxGroup();
+        playerLayer = new FlxSpriteGroup();
+        topLayer = new FlxGroup();
+        add(groundLayer);
+        add(playerLayer);
+        add(topLayer);
 
         playerColliderGroup = new FlxGroup();
     }
@@ -52,7 +67,7 @@ class Game extends FlxState {
         GMAP.set('.', Empty);
 
         _gridGroup = new FlxSpriteGroup();
-        add(_gridGroup);
+        //add(_gridGroup);
 
 		drawGrid(_level.getGrid());
         populateNumberGrid();
@@ -61,7 +76,7 @@ class Game extends FlxState {
 		createBear();
 
 		player = new Player(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 1.5);
-		add(player);
+		playerLayer.add(player);
 
 		FlxG.camera.setBounds(BLOCK_WIDTH , 0, (_grid[0].length - 1) * BLOCK_WIDTH, _grid.length* BLOCK_HEIGHT, true);
 		FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
@@ -83,6 +98,7 @@ class Game extends FlxState {
                 var tile:Tile = Type.createInstance(classType, [j*BLOCK_WIDTH, i*BLOCK_HEIGHT - 51] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
+                groundLayer.add(tile);
             }
             gridH = row.length;
         }
@@ -191,7 +207,25 @@ class Game extends FlxState {
 
         FlxG.collide(player, playerColliderGroup);
         super.update();
+
+        playerLayer.sort(sortObjs, FlxSort.ASCENDING);
     }
+
+    public static inline function sortObjs(Order:Int, Obj1:FlxObject, Obj2:FlxObject):Int
+    {
+        var obj1Offset =0;
+        var obj2Offset =0;
+
+        if (Std.is(Obj1, TreeSprite)){
+            obj1Offset = 50;
+        }
+        if (Std.is(Obj2, TreeSprite)){
+            obj2Offset = 50;
+        }
+
+        return FlxSort.byValues(Order, Obj1.y + obj1Offset, Obj2.y + obj2Offset);
+
+}
 
 	private function createRageBar():Void
 	{
@@ -202,7 +236,7 @@ class Game extends FlxState {
 	private function createBear():Void
 	{
 		Reg.bear = new Bear();
-		add(Reg.bear);
+		playerLayer.add(Reg.bear);
 		Reg.bear.y = FlxG.height / 2;
 		Reg.bear.x = Reg.bear.width;
 
