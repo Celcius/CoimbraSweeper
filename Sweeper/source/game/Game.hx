@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxCamera;
+import flixel.util.FlxPoint;
 import game.levels.Level;
 import game.tiles.*;
 import flixel.effects.particles.FlxParticle;
@@ -56,6 +57,13 @@ class Game extends FlxState {
         GMAP.set('*', Bomb);
         GMAP.set('t', Tree);
         GMAP.set('.', Empty);
+		
+		GMAP.set('P', Grass); // player
+
+		GMAP.set('U', Grass); // bear
+		GMAP.set('D', Grass); // bear
+		GMAP.set('L', Grass); // bear
+		GMAP.set('R', Grass); // bear
 
         _gridGroup = new FlxSpriteGroup();
         add(_gridGroup);
@@ -64,7 +72,6 @@ class Game extends FlxState {
         populateNumberGrid();
 
 		createRageBar();
-		createBear();
 
 		_gameOver = false;
 		
@@ -72,8 +79,12 @@ class Game extends FlxState {
 		
 		add(player);
 
-		FlxG.camera.setBounds(BLOCK_WIDTH , 0, (_grid[0].length - 1) * BLOCK_WIDTH, _grid.length* BLOCK_HEIGHT, true);
-		FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
+		FlxG.camera.setBounds(0 , 3 * BLOCK_HEIGHT / 5, _grid[0].length * BLOCK_WIDTH, _grid.length * BLOCK_HEIGHT, true);
+		
+		if (player != null)
+			FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
+		else
+			trace("Error: Failed to create player!!!");
 
 		Reg.game = this;
         super.create();
@@ -89,10 +100,20 @@ class Game extends FlxState {
             _grid[i] = new Array<Tile>();
             for ( j in 0...row.length )
             {
-                var classType= GMAP.get(row.charAt(j));
-                var tile:Tile = Type.createInstance(classType, [j*BLOCK_WIDTH, i*BLOCK_HEIGHT - 51] );
+				var GMAPkey = row.charAt(j);
+                var classType= GMAP.get(GMAPkey);
+                var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
+				
+				if (GMAPkey == 'P')
+					createPlayer(j, i); // X=j, Y=i
+					
+				if (GMAPkey == 'U' ||
+					GMAPkey == 'D' ||
+					GMAPkey == 'L' ||
+					GMAPkey == 'R')
+					createBear(j, i, GMAPkey);
             }
             gridH = row.length;
         }
@@ -183,6 +204,15 @@ class Game extends FlxState {
     {
         return Math.floor((Y+23)/BLOCK_HEIGHT);
     }
+	
+	public static function getWorldX(X:Int):Float
+	{
+		return Math.floor(X * BLOCK_WIDTH);
+	}
+	public static function getWorldY(Y:Int):Float
+	{
+		return Math.floor(Y * BLOCK_HEIGHT);
+	}
 
     public function getTile(X:Int, Y:Int):game.Tile
     {
@@ -217,13 +247,29 @@ class Game extends FlxState {
 		add(Reg.rageBar);
 	}
 
-	private function createBear():Void
+	private function createBear(X:Int, Y:Int, direction:String):Void
 	{
-		Reg.bear = new Bear();
+		var dir:FlxPoint = null;
+		if (direction == 'U')
+			dir = Bear.NORTH;
+		else if (direction == 'S')
+			dir = Bear.SOUTH;
+		else if (direction == 'L')
+			dir = Bear.WEST;
+		else if (direction == 'R')
+			dir = Bear.EAST;
+		
+		Reg.bear = new Bear(dir);
 		add(Reg.bear);
-		Reg.bear.y = FlxG.height / 2;
-		Reg.bear.x = Reg.bear.width;
 
+		Reg.bear.x = getWorldX(X);
+		Reg.bear.y = getWorldY(Y);
+	}
+	
+	private function createPlayer(X:Int, Y:Int)
+	{
+		player = new Player(getWorldX(X), getWorldY(Y));
+		add(player);
 	}
 	
 	public function killPlayerBear():Void

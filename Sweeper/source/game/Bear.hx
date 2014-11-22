@@ -22,15 +22,15 @@ class Bear extends FlxSprite
 	public var isStopped: Bool = false;
 
 	var dir:FlxPoint = EAST;
-	//var dir:
-
-	public function new()
+	
+	public function new(direction:FlxPoint) 
 	{
 		super();
 		Reg.bear = this;
 		loadGraphic("assets/images/bear_sheet.png", false, 96, 136);
-		this.velocity = new FlxPoint( dir.x * SPEED, dir.y * SPEED);
-		this.acceleration = new FlxPoint(0, 0);
+		
+		retirectBear(direction);
+		
 		this.immovable = true;
 	}
 
