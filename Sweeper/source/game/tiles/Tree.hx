@@ -20,8 +20,9 @@ class Tree extends Tile
 		explored = true;
 
 		collider = new FlxSprite(X,Y+51);
-		collider.makeGraphic(Math.floor(width), 81, 0xFFFF0000);
+		collider.makeGraphic(Math.floor(width), 81, 0x55FF0000);
 		Game.instance.playerColliderGroup.add(collider);
+		collider.immovable = true;
 	}
 
 	override public function draw():Void

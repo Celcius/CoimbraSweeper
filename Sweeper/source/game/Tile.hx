@@ -12,8 +12,6 @@ class Tile extends FlxSprite
     public var explored:Bool = false;
     public var blocking:Bool = false;
 
-    private var _underSprite:Tile;
-
     private var overGrass:FlxSprite;
 
 	public function new(X:Float, Y:Float, name:String)

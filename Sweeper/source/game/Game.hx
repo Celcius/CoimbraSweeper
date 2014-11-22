@@ -189,6 +189,7 @@ class Game extends FlxState {
     {
         //trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
+        FlxG.collide(player, playerColliderGroup);
         super.update();
     }
 
