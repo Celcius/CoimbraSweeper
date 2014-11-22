@@ -123,11 +123,36 @@ class Bear extends FlxSprite
 				case Water.UP: verMove = -verDiff;
 				case Water.DOWN: verMove = verDiff;
 			}
-
-			updateDirection(1.0, horMove, verMove);
-
+			
+			if (shouldMove(horMove, verMove))
+				updateDirection(0.5, horMove, verMove);
 		}
 
+	}
+	
+		private function shouldMove(horMove:Float, verMove:Float):Bool
+	{
+		if (horMove == 0 && verMove == 0)
+			return false;
+
+		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
+
+		if (aTile.blocking)
+		{
+			trace("SELF BLOCK");
+			return false;
+		}
+
+		var player:Player = Reg.player;
+		var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
+
+		if (aTile == bTile)
+		{
+			trace("FOUND PLAYER");
+			return false;
+		}
+
+		return true;
 	}
 
 	public var anchorX(get, never):Float;
