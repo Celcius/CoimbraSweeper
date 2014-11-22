@@ -1,6 +1,8 @@
 package;
 
+import game.Bear;
 import flixel.util.FlxSave;
+import game.RageBar;
 
 /**
  * Handy, pre-built Registry class that can be used to store 
