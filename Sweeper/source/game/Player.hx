@@ -10,17 +10,22 @@ import flixel.FlxG;
 class Player extends FlxSprite
 {
 	private static var SPEED = 200;
-	
-	public function new(X:Float, Y:Float) 
+
+	private var anchor:FlxSprite;
+
+	public function new(X:Float, Y:Float)
 	{
 		super(X, Y);
 		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, 101, 171);
+
+		anchor = new FlxSprite(anchorX, anchorY);
+		anchor.makeGraphic(2,2, 0xFFFF0000);
 	}
-	
-	override public function update():Void 
+
+	override public function update():Void
 	{
 		super.update();
-		
+
 		// left right movement
 		if (FlxG.keys.anyPressed(["A", "LEFT", "D", "RIGHT"]))
 		{
@@ -29,7 +34,7 @@ class Player extends FlxSprite
 				this.velocity.x = 0;
 			else
 			{
-			
+
 				if (FlxG.keys.anyPressed(["A", "LEFT"]))
 				{
 					this.velocity.x = -SPEED;
@@ -44,8 +49,8 @@ class Player extends FlxSprite
 		{
 			this.velocity.x = 0;
 		}
-		
-		
+
+
 		// up down movement
 		if (FlxG.keys.anyPressed(["W", "UP", "S", "DOWN"]))
 		{
@@ -68,6 +73,26 @@ class Player extends FlxSprite
 		{
 			this.velocity.y = 0;
 		}
+
+		anchor.x = anchorX;
+		anchor.y = anchorY;
 	}
-	
+
+	override public function draw():Void
+	{
+		super.draw();
+		anchor.draw();
+	}
+
+	public var anchorX(get, never):Float;
+
+	function get_anchorX() {
+		return x + width/2;
+	}
+
+	public var anchorY(get, never):Float;
+	function get_anchorY() {
+		return y + 3*(height/4)+10;
+	}
+
 }

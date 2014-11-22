@@ -13,6 +13,8 @@ class Tree extends Tile
 		loadGraphic( "assets/images/tiles/Tree_Tall.png", true, 101, 171);
 
 		grassSprite = new Grass(X,Y);
+		grassSprite.explored = true;
+		explored = true;
 	}
 
 	override public function draw():Void

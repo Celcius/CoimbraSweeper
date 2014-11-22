@@ -152,11 +152,22 @@ class Game extends FlxState {
 		return false;
 	}
 
+    public static function getGridX(X:Float):Float
+    {
+        return Math.floor( X/BLOCK_WIDTH);
+    }
+    public static function getGridY(Y:Float):Float
+    {
+        return Math.floor((Y+23)/BLOCK_HEIGHT);
+    }
+
     /**
 	 * Function that is called once every frame.
 	 */
     override public function update():Void
     {
+        trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
+
         super.update();
     }
 
