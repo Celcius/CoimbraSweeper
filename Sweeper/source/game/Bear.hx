@@ -4,6 +4,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.util.FlxPoint;
 import haxe.macro.Expr.Var;
+import game.tiles.Water;
 
 import motion.Actuate;
 
@@ -108,6 +109,19 @@ class Bear extends FlxSprite
 		}
 
 		if (tile.className == "water" && canMove){
+			var horDiff:Float = Game.BLOCK_WIDTH;
+			var verDiff:Float = Game.BLOCK_HEIGHT;
+			var horMove:Float = 0.0;
+			var verMove:Float = 0.0;
+
+			switch(cast(tile,Water).direction){
+				case Water.LEFT: horMove = -horDiff;
+				case Water.RIGHT: horMove = horDiff;
+				case Water.UP: verMove = -verDiff;
+				case Water.DOWN: verMove = verDiff;
+			}
+
+			updateDirection(1.0, horMove, verMove);
 
 		}
 
