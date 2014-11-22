@@ -16,7 +16,7 @@ class Grass extends Tile
 	{
 		super.setExplored(explored);
 		if (explored){
-			loadGraphic( "assets/images/tiles/Grass2_Block.png", true, 101, 171);
+			loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
 		} else {
 			loadGraphic( "assets/images/tiles/Grass_Block.png", true, 101, 171);
 		}
