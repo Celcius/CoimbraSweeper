@@ -1,11 +1,15 @@
 package game;
 
+import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.FlxCamera;
 
 class Game extends FlxState {
 
+	private var player:Player;
+	
     public static var BLOCK_WIDTH:Int = 101;
     public static var BLOCK_HEIGHT:Int = 83;
 
@@ -35,9 +39,14 @@ class Game extends FlxState {
         _gridGroup = new FlxSpriteGroup();
         add(_gridGroup);
 
-
         drawGrid(GRID);
         populateNumberGrid(GRID);
+		
+		player = new Player(BLOCK_WIDTH * 0, BLOCK_HEIGHT * 1.5);
+		add(player);
+		
+		FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
+
 
         super.create();
     }
