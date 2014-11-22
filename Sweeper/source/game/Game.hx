@@ -108,11 +108,8 @@ class Game extends FlxState {
 		GMAP.set('b', Bed);
 
 		GMAP.set('P', Grass); // player
-
-		GMAP.set('U', Grass); // bear
-		GMAP.set('D', Grass); // bear
-		GMAP.set('L', Grass); // bear
-		GMAP.set('R', Grass); // bear
+		GMAP.set('B', Grass); // bear
+		// PB joke again :D
 
 		GMAP.set('>', WaterRight);
 		GMAP.set('<', WaterLeft);
@@ -161,11 +158,8 @@ class Game extends FlxState {
 				if (GMAPkey == 'P')
 					createPlayer(j, i); // X=j, Y=i
 
-				if (GMAPkey == 'U' ||
-					GMAPkey == 'D' ||
-					GMAPkey == 'L' ||
-					GMAPkey == 'R')
-					createBear(j, i, GMAPkey);
+				if (GMAPkey == 'B')
+					createBear(j, i);
 
             }
             gridW = row.length;
@@ -344,24 +338,10 @@ class Game extends FlxState {
 		add(Reg.rageBar);
 	}
 
-	private function createBear(X:Int, Y:Int, direction:String):Void
+	private function createBear(X:Int, Y:Int):Void
 	{
-
-		var dir:FlxPoint = null;
-		if (direction == 'U')
-			dir = Bear.NORTH;
-		else if (direction == 'S')
-			dir = Bear.SOUTH;
-		else if (direction == 'L')
-			dir = Bear.WEST;
-		else if (direction == 'R')
-			dir = Bear.EAST;
-
-		Reg.bear = new Bear(dir);
+		Reg.bear = new Bear(getWorldX(X), getWorldX(Y));
 		playerLayer.add(Reg.bear);
-
-		Reg.bear.x = getWorldX(X);
-		Reg.bear.y = getWorldY(Y);
 	}
 
 	private function createPlayer(X:Int, Y:Int)
