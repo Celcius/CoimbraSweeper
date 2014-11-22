@@ -78,7 +78,7 @@ class Game extends FlxState {
 	{
 	    instance = this;
 		Reg.game = this;
-		
+
 		for ( member in members)
 			remove(member);
 
@@ -312,7 +312,7 @@ class Game extends FlxState {
 			return;
 		}
 
-        FlxG.collide(player, playerColliderGroup);
+        //FlxG.collide(player, playerColliderGroup);
 
         super.update();
 
@@ -396,7 +396,7 @@ class Game extends FlxState {
 			remove(Reg.bear);
 			Reg.bear.destroy();
 			Reg.bear = null;
-			
+
 			endScreenLabel("You put the bear to sleep!\nFor now...", "Press Space...");
 			_levelFinished = true;
 		}
