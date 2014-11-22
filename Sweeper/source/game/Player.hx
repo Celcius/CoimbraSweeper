@@ -22,24 +22,18 @@ class Player extends FlxSprite
 	public function new(X:Float, Y:Float)
 	{
 		super(X, Y);
-		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, 101, 171);
+		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, 78, 81);
 
 		anchor = new FlxSprite(anchorX, anchorY);
 
 		anchor.makeGraphic(2,2, 0xFFFF0000);
 
-		colliderOffset = new FlxPoint(10, 51);
-		collider = new FlxSprite(0,0);
-		collider.makeGraphic(80, 81, 0xFFFF0000);
-
 		anchor.makeGraphic(2, 2, 0xFFFF0000);
-		oppositeAnchor = new FlxPoint(x + width, y + height);
-
+		oppositeAnchor = new FlxPoint();
 	}
 
 	override public function update():Void
 	{
-		super.update();
 
 		// left right movement
 		if (FlxG.keys.anyPressed(["A", "LEFT", "D", "RIGHT"]))
@@ -89,36 +83,50 @@ class Player extends FlxSprite
 			this.velocity.y = 0;
 		}
 
-		collider.x = x + colliderOffset.x;
-		collider.y = y + colliderOffset.y;
 
-		var bear:Bear = Reg.bear;
-		if (bear != null && FlxG.collide(this.collider, bear))
-		{
-			if (FlxG.keys.anyPressed(["W", "UP"]) && y <= bear.y + bear.height )
-				bear.redirectBear(Bear.NORTH);
-			else if (FlxG.keys.anyPressed(["S","DOWN"]) && oppositeAnchor.y >= bear.y )
-				bear.redirectBear(Bear.SOUTH);
-			else if (FlxG.keys.anyPressed(["A","LEFT"]) && x >= bear.x + bear.width)
-				bear.redirectBear(Bear.WEST);
-			else if (FlxG.keys.anyPressed(["D","RIGHT"]) && oppositeAnchor.x <= bear.x)
-				bear.redirectBear(Bear.EAST);
 
-			x = collider.x - colliderOffset.x;
-			y = collider.y - colliderOffset.y;
-		}
 
+		handleCollision();
 
 		anchor.x = anchorX;
 		anchor.y = anchorY;
 
+		super.update();
+	}
+
+	public function handleCollision():Void
+	{
+		oppositeAnchor.x = x + width;
+		oppositeAnchor.y = y + height;// = new FlxPoint(x + width, y + height);
+
+		var bear:Bear = Reg.bear;
+		if (bear != null && FlxG.collide(this, bear))
+		{
+			FlxG.log.notice("colliding");
+			if (FlxG.keys.anyPressed(["W", "UP"]) && y <= bear.y + bear.height ){
+				bear.redirectBear(Bear.NORTH);
+				if (velocity.y < 0) velocity.y = 0;
+				trace(velocity.y);
+			}
+			else if (FlxG.keys.anyPressed(["S","DOWN"]) && oppositeAnchor.y >= bear.y ){
+				bear.redirectBear(Bear.SOUTH);
+				//if (velocity.y > 0) velocity.y = 0;
+			}
+			else if (FlxG.keys.anyPressed(["A","LEFT"]) && x >= bear.x + bear.width){
+				bear.redirectBear(Bear.WEST);
+				//if (velocity.x < 0) velocity.x = 0;
+			}
+			else if (FlxG.keys.anyPressed(["D","RIGHT"]) && oppositeAnchor.x <= bear.x){
+				bear.redirectBear(Bear.EAST);
+				//if (velocity.x > 0) velocity.x = 0;
+			}
+		}
 	}
 
 	override public function draw():Void
 	{
 		super.draw();
 		anchor.draw();
-		collider.draw();
 	}
 
 	public var anchorX(get, never):Float;
@@ -129,7 +137,7 @@ class Player extends FlxSprite
 
 	public var anchorY(get, never):Float;
 	function get_anchorY() {
-		return y + 3*(height/4)+10;
+		return y + height-5;
 	}
 
 }

@@ -186,7 +186,7 @@ class Game extends FlxState {
 	 */
     override public function update():Void
     {
-        trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
+        //trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
         super.update();
     }
