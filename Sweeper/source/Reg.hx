@@ -3,6 +3,8 @@ package;
 import game.Bear;
 import flixel.util.FlxSave;
 import game.RageBar;
+import game.Player;
+import game.Game;
 
 /**
  * Handy, pre-built Registry class that can be used to store 
@@ -11,8 +13,11 @@ import game.RageBar;
  */
 class Reg
 {
+	public static var game:Game;
+	public static var player:Player;
 	public static var bear:Bear;
 	public static var rageBar:RageBar;
+	
 	/**
 	 * Generic levels Array that can be used for cross-state stuff.
 	 * Example usage: Storing the levels of a platformer.
