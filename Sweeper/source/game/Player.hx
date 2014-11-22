@@ -104,12 +104,12 @@ class Player extends FlxSprite
 		anchor.y = anchorY;
 
 		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
-		if (currentTile){
+		if (currentTile != null){
 			currentTile.setExplored(true);
 		}
 
 		super.update();
-		
+
 		if (Game.instance.isBomb( Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY))))
 		{
 			Game.instance.killPlayerMine();

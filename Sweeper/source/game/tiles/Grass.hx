@@ -14,11 +14,12 @@ class Grass extends Tile
 
 	override public function setExplored(explored:Bool):Void
 	{
-		super.setExplored(explored);
-		if (explored){
-			loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
-		} else {
-			loadGraphic( "assets/images/tiles/Grass_Block.png", true, 101, 171);
+		var changed:Bool = this.explored!=explored;
+
+		if (changed){
+			loadGraphic( "assets/images/tiles/Grass"+(explored ? "2":"")+"_Block.png", true, 101, 171);
 		}
+		super.setExplored(explored);
+
 	}
 }

@@ -23,13 +23,17 @@ class Tile extends FlxSprite
 		text.color = 0xFFFFFF;
 
 		overGrass = new FlxSprite(X,Y);
-		overGrass.loadGraphic( "assets/images/tiles/grass_smaller.png", true, 101, 171);
-		overGrass.y -= 37;
+		overGrass.blend = flash.display.BlendMode.OVERLAY;
+		overGrass.alpha = 0.7;
 	}
 
 	public function setExplored(explored:Bool):Void
 	{
+		if (this.explored != explored && explored){
+			overGrass.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
+		}
 		this.explored = explored;
+
 	}
 
 	override public function draw():Void
@@ -37,6 +41,9 @@ class Tile extends FlxSprite
 		super.draw();
 
 		text.draw();
+		if (explored){
+			overGrass.draw();
+		}
 
 	}
 
