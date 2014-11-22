@@ -25,15 +25,15 @@ class Player extends FlxSprite
 
 	var isStopped : Bool = false;
 	var canMove:Bool = true;
-	
+
 	private var SPRITE_WIDTH = 68;
 	private var SPRITE_HEIGHT = 78;
 
 
 	public function new(X:Float, Y:Float)
 	{
-		
-		
+
+
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
 		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
@@ -55,18 +55,15 @@ class Player extends FlxSprite
 			return;
 
 		var duration:Float = 0.5;
-		
+
 		var horDiff:Float = Game.BLOCK_WIDTH;
 		var verDiff:Float = Game.BLOCK_HEIGHT;
-		
+
 		var horMove:Float = 0.0;
 		var verMove:Float = 0.0;
-		
-		trace("" + FlxG.elapsed + " - update");
-		
+
 		if (canMove)
 		{
-			trace("" + FlxG.elapsed + " - and canMove");
 			// left movement
 			if (FlxG.keys.anyPressed(["A", "LEFT"]))
 			{
@@ -84,7 +81,7 @@ class Player extends FlxSprite
 			{
 				verMove = verDiff;
 			}
-			
+
 			// check if should move - create action to move if yes
 			if ( this.shouldMove(horMove, verMove, duration) )
 			{
@@ -111,7 +108,7 @@ class Player extends FlxSprite
 			Game.instance.killPlayerMine();
 		}
 	}
-	
+
 	public function setCanMove()
 	{
 		this.canMove = true;
