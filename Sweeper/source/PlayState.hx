@@ -20,6 +20,7 @@ class PlayState extends FlxState
 		super.create();
 
         var text:FlxText = new FlxText(0,0, 100, "Let's Play!");
+        add(text);
 	}
 	
 	/**

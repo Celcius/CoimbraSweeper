@@ -35,6 +35,230 @@ class ApplicationMain {
 		types.push (AssetType.TEXT);
 		
 		
+		urls.push ("assets/images/player.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Brown_Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Character Boy.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Character Cat Girl.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Character Horn Girl.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Character Pink Girl.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Character Princess Girl.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Chest Closed.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Chest Lid.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Chest Open.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Dirt Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Door Tall Closed.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Door Tall Open.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Enemy Bug.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Gem Blue.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Gem Green.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Gem Orange.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Grass_Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Heart.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Key.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Plain Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Ramp East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Ramp North.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Ramp South.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Ramp West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Rock.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof North East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof North West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof North.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof South East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof South West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof South.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Roof West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Selector.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow North East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow North West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow North.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow Side West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow South East.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow South West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow South.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Shadow West.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/SpeechBubble.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Star.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Stone Block Tall.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Stone Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Tree Short.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Tree Tall.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Tree Ugly.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Wall Block Tall.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Wall Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Water Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Window Tall.png");
+		types.push (AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/tiles/Wood Block.png");
+		types.push (AssetType.IMAGE);
+		
+		
 		urls.push ("assets/music/music-goes-here.txt");
 		types.push (AssetType.TEXT);
 		
