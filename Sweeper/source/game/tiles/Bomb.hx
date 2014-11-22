@@ -13,6 +13,8 @@ class Bomb extends Tile
 		loadGraphic( "assets/images/tiles/Key.png", true, 101, 171);
 
 		terrainSprite = new Terrain(X,Y);
+		terrainSprite.explored = true;
+		explored = true;
 	}
 
 	override public function draw():Void
