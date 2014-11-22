@@ -29,12 +29,12 @@ class MenuState extends FlxState
         _btnPlay.screenCenter();
         add(_btnPlay);
 
-        FlxG.switchState(new Game(new game.levels.Level1()));
+        FlxG.switchState(new Game(0));
 	}
 
     private function clickPlay():Void
     {
-        FlxG.switchState(new Game(new game.levels.Level1()));
+        FlxG.switchState(new Game(0));
     }
 
 	/**

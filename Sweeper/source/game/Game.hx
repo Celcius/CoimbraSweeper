@@ -13,9 +13,12 @@ import flixel.FlxObject;
 import flixel.FlxCamera;
 import flixel.util.FlxPoint;
 import game.levels.Level;
+import game.levels.Level1;
+import game.levels.Level2;
 import game.tiles.*;
 import flixel.effects.particles.FlxParticle;
 import flixel.effects.particles.FlxEmitter;
+import haxe.macro.Expr.Var;
 
 class Game extends FlxState {
 
@@ -30,6 +33,8 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
+	private var _levels : Array<Level> = [];//[new Level1(), new Level2() ];
+	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
 
@@ -38,7 +43,7 @@ class Game extends FlxState {
     public static var _gridGroup:FlxSpriteGroup;
 
 	public var _gameOver:Bool;
-
+	public var _levelFinished:Bool;
     public var playerColliderGroup:FlxGroup;
 
     public var layers:FlxGroup;
@@ -47,12 +52,44 @@ class Game extends FlxState {
     public var topLayer:FlxGroup;
 
 
-    public function new(level:Level)
+    public function new(levelIndex : Int)
     {
         super();
-        _level = level;
+		
+		if (levelIndex >= _levels.length)
+			levelIndex = _levels.length - 1;
+		if (levelIndex < 0)
+			levelIndex = 0;
+		
+			_levelIndex = levelIndex;
+        _level = _levels[_levelIndex];
+		
         instance = this;
 
+    }
+
+    override public function create():Void
+    {
+		loadLevel(_levelIndex);
+        super.create();
+    }
+	
+	function loadLevel(levelIndex:Int)
+	{
+		for ( member in members)
+			remove(member);
+
+		if (_levelIndex >= _levels.length)
+		{
+			FlxG.switchState(new GameOverScreen());
+			return;
+		}
+		if (levelIndex < 0)
+			levelIndex = 0;
+		
+			_levelIndex = levelIndex;
+        _level = _levels[_levelIndex];
+		
         groundLayer = new FlxGroup();
         playerLayer = new FlxSpriteGroup();
         topLayer = new FlxGroup();
@@ -61,10 +98,6 @@ class Game extends FlxState {
         add(topLayer);
 
         playerColliderGroup = new FlxGroup();
-    }
-
-    override public function create():Void
-    {
 
         GMAP = new Map<String, Dynamic>();
         GMAP.set('#', Grass);
@@ -72,6 +105,7 @@ class Game extends FlxState {
         GMAP.set('*', Bomb);
         GMAP.set('t', Tree);
         GMAP.set('.', Empty);
+		GMAP.set('b', Bed);
 
 		GMAP.set('P', Grass); // player
 
@@ -79,6 +113,7 @@ class Game extends FlxState {
 		GMAP.set('D', Grass); // bear
 		GMAP.set('L', Grass); // bear
 		GMAP.set('R', Grass); // bear
+		
 
         _gridGroup = new FlxSpriteGroup();
         //add(_gridGroup);
@@ -87,6 +122,7 @@ class Game extends FlxState {
         populateNumberGrid();
 
 		createRageBar();
+		_levelFinished = false;
 
 		_gameOver = false;
 
@@ -98,8 +134,7 @@ class Game extends FlxState {
 			trace("Error: Failed to create player!!!");
 
 		Reg.game = this;
-        super.create();
-    }
+	}
 
     private function drawGrid(grid:Array<String>):Void
     {
@@ -209,6 +244,14 @@ class Game extends FlxState {
 		return false;
 	}
 
+	public function isBed(tile:Tile):Bool
+	{
+		if (tile == null)
+		return false;
+		
+		return tile.className == "bed";
+		
+	}
     public function getGridX(X:Float):Int
     {
         return Math.floor( X/BLOCK_WIDTH);
@@ -240,13 +283,24 @@ class Game extends FlxState {
 	 */
     override public function update():Void
     {
+		if (_levelIndex >= _levels.length)
+		{
+			loadLevel(_levelIndex);
+			return;
+		}
+			
         trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
 		if (_gameOver && FlxG.keys.anyPressed(["R"]))
 		{
-			for ( member in members)
-				remove(member);
-			create();
+			loadLevel(_levelIndex);
+			return;
+		}
+		
+		if (_levelFinished && FlxG.keys.anyPressed(["SPACE"]))
+		{
+			_levelIndex++;
+				loadLevel(_levelIndex);
 			return;
 		}
 
@@ -336,15 +390,33 @@ class Game extends FlxState {
 			gameOver("You woke the Bear!\nFor the last time...");
 		}
 	}
+	
+	public function finishGame():Void
+	{
+		if (!_levelFinished)
+		{
+			Reg.bear.setStopped(true);
+			Reg.player.setStopped(true);
+			
+			
+			endScreenLabel("You put the bear to sleep!\nFor now...", "Press Space...");
+			_levelFinished = true;
+		}
+	}
 
 	function gameOver(text : String) : Void
 	{
 		_gameOver = true;
 		Reg.player.setStopped(true);
 		Reg.bear.setStopped(true);
+		endScreenLabel(text, "Press R to retry...");
+	}
 
-		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, 0, text,30);
-		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, 0, "Press R to retry...", 25);
+	function endScreenLabel(text1:String, text2:String):Void
+	{
+		
+		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, 0, text1,30);
+		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, 0, text2, 25);
 
 		label1.color = 0xff000000;
 		label1.scrollFactor.x = label1.scrollFactor.y = 0;
@@ -357,16 +429,15 @@ class Game extends FlxState {
 		label2.color = 0xff000000;
 		label2.scrollFactor.x = label2.scrollFactor.y = 0;
 		label2.alignment = "center";
-		label2.x -= label2.width / 2;
 		label2.borderStyle = FlxText.BORDER_OUTLINE;
 		label2.borderColor = 0xffffffff;
 		label2.borderSize = 3;
-
+		label2.x -= label2.width / 2;
+		
 		add(label1);
 		add(label2);
 
 	}
-
 	public function bloodExplosion(x:Float,y:Float,depth:Int) : Void
 	{
 			var xp : Explosion =  new Explosion(x, y, depth);
