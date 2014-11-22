@@ -12,6 +12,7 @@ class Player extends FlxSprite
 	private static var SPEED = 200;
 
 	private var anchor:FlxSprite;
+	public var collider:FlxSprite;
 
 	public function new(X:Float, Y:Float)
 	{
@@ -20,6 +21,9 @@ class Player extends FlxSprite
 
 		anchor = new FlxSprite(anchorX, anchorY);
 		anchor.makeGraphic(2,2, 0xFFFF0000);
+
+		collider = new FlxSprite(0,0);
+		collider.makeGraphic(80, 81, 0xFFFF0000);
 	}
 
 	override public function update():Void
@@ -73,8 +77,11 @@ class Player extends FlxSprite
 		{
 			this.velocity.y = 0;
 		}
-		
-		if (Reg.bear != null && FlxG.collide(this, Reg.bear))
+
+		collider.x = x + (width - collider.width)*0.5;
+		collider.y = y + 51;
+
+		if (Reg.bear != null && FlxG.collide(this.collider, Reg.bear))
 		{
 			if (FlxG.keys.anyPressed(["W","UP"]))
 				Reg.bear.redirectBear(Bear.NORTH);
@@ -85,16 +92,18 @@ class Player extends FlxSprite
 			else if (FlxG.keys.anyPressed(["D","RIGHT"]))
 				Reg.bear.redirectBear(Bear.EAST);
 		}
-		
+
 
 		anchor.x = anchorX;
 		anchor.y = anchorY;
+
 	}
 
 	override public function draw():Void
 	{
 		super.draw();
 		anchor.draw();
+		collider.draw();
 	}
 
 	public var anchorX(get, never):Float;

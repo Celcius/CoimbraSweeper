@@ -3,12 +3,15 @@ package game;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxCamera;
 import game.levels.Level;
 import game.tiles.*;
 
 class Game extends FlxState {
+
+    public static var instance:Game;
 
 	private var player:Player;
 
@@ -26,11 +29,16 @@ class Game extends FlxState {
 
     public static var _gridGroup:FlxSpriteGroup;
 
+    public var playerColliderGroup:FlxGroup;
+
 
     public function new(level:Level)
     {
         super();
         _level = level;
+        instance = this;
+
+        playerColliderGroup = new FlxGroup();
     }
 
     override public function create():Void
@@ -48,7 +56,7 @@ class Game extends FlxState {
 
 		drawGrid(_level.getGrid());
         populateNumberGrid();
-		
+
 		createRageBar();
 		createBear();
 
@@ -87,27 +95,27 @@ class Game extends FlxState {
             for ( j in 0... _row.length )
             {
                 var tile:Tile = _grid[i][j];
-				
+
 				var numBombs:Int = countBombs(i, j);
 				tile.number = numBombs;
             }
         }
     }
-	
+
 	private function countBombs(i:Int, j:Int):Int
 	{
 		var numBombs:Int = 0;
-		
+
 		var prevLine:Array<Tile> = null;
 		if (i > 0)
 			prevLine = _grid[i - 1];
-		
+
 		var thisLine = _grid[i];
-			
+
 		var nextLine:Array<Tile> = null;
 		if (i < _grid.length - 1)
 			nextLine = _grid[i + 1];
-			
+
 		// i - 1
 		if (prevLine != null)
 		{
@@ -120,7 +128,7 @@ class Game extends FlxState {
 			if (j < prevLine.length - 1)
 				numBombs += isBomb(prevLine[j+1]) ? 1 : 0;
 		}
-		
+
 		// i
 		// j - 1
 		if (j > 0)
@@ -141,33 +149,33 @@ class Game extends FlxState {
 			if (j < nextLine.length - 1)
 				numBombs += isBomb(nextLine[j+1]) ? 1 : 0;
 		}
-		
+
 		return numBombs;
 	}
-	
+
 	private function isBomb(tile:Tile):Bool
 	{
 		if (tile == null)
 			return false;
-		
+
 		if (tile.className == "bomb")
 			return true;
-			
+
 		return false;
 	}
 
-    public static function getGridX(X:Float):Float
+    public function getGridX(X:Float):Float
     {
         return Math.floor( X/BLOCK_WIDTH);
     }
-    public static function getGridY(Y:Float):Float
+    public function getGridY(Y:Float):Float
     {
         return Math.floor((Y+23)/BLOCK_HEIGHT);
     }
 
-    public static function getTile(X:int, Y:int):game.Tile
+    public function getTile(X:Int, Y:Int):game.Tile
     {
-        if (X >= 0 && X < gridW && Y >= 0 Y < gridH){
+        if (X >= 0 && X < gridW && Y >= 0 && Y < gridH){
             return _grid[Y][X];
         }
         return null;
@@ -195,6 +203,6 @@ class Game extends FlxState {
 		add(Reg.bear);
 		Reg.bear.y = FlxG.height / 2;
 		Reg.bear.x = Reg.bear.width;
-	
+
 	}
 }

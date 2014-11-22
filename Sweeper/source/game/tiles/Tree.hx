@@ -2,10 +2,13 @@ package game.tiles;
 
 import flixel.FlxSprite;
 import game.Tile;
+import game.Game;
 
 class Tree extends Tile
 {
 	private var grassSprite:Grass;
+
+	private var collider:FlxSprite;
 
 	public function new (X:Float , Y:Float)
 	{
@@ -15,11 +18,16 @@ class Tree extends Tile
 		grassSprite = new Grass(X,Y);
 		grassSprite.explored = true;
 		explored = true;
+
+		collider = new FlxSprite(X,Y+51);
+		collider.makeGraphic(Math.floor(width), 81, 0xFFFF0000);
+		Game.instance.playerColliderGroup.add(collider);
 	}
 
 	override public function draw():Void
 	{
 		grassSprite.draw();
 		super.draw();
+		collider.draw();
 	}
 }

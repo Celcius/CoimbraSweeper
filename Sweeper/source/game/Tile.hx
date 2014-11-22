@@ -29,21 +29,23 @@ class Tile extends FlxSprite
 		overGrass.y -= 37;
 	}
 
+	public function setExplored(explored:Bool):Void
+	{
+		this.explored = explored;
+	}
+
 	override public function draw():Void
 	{
 		super.draw();
-		if (!explored){
-			overGrass.draw();
-		}
 
 		text.draw();
 
 	}
-	
+
 	override public function update()
 	{
 		super.update();
-		
+
 		text.text = "" + number;
 	}
 }
