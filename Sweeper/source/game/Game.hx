@@ -46,6 +46,7 @@ class Game extends FlxState {
 
 		drawGrid(_level.getGrid());
         populateNumberGrid();
+		
 		createRageBar();
 		createBear();
 
@@ -76,8 +77,80 @@ class Game extends FlxState {
 
     private function populateNumberGrid():Void
     {
-
+		for( i in 0... _grid.length)
+        {
+            var _row = _grid[i];
+            for ( j in 0... _row.length )
+            {
+                var tile:Tile = _grid[i][j];
+				
+				var numBombs:Int = countBombs(i, j);
+				tile.number = numBombs;
+            }
+        }
     }
+	
+	private function countBombs(i:Int, j:Int):Int
+	{
+		var numBombs:Int = 0;
+		
+		var prevLine:Array<Tile> = null;
+		if (i > 0)
+			prevLine = _grid[i - 1];
+		
+		var thisLine = _grid[i];
+			
+		var nextLine:Array<Tile> = null;
+		if (i < _grid.length - 1)
+			nextLine = _grid[i + 1];
+			
+		// i - 1
+		if (prevLine != null)
+		{
+			// j - 1
+			if (j > 0)
+				numBombs += isBomb(prevLine[j-1]) ? 1 : 0;
+			// j
+			numBombs += isBomb(prevLine[j]) ? 1 : 0;
+			// j + 1
+			if (j < prevLine.length - 1)
+				numBombs += isBomb(prevLine[j+1]) ? 1 : 0;
+		}
+		
+		// i
+		// j - 1
+		if (j > 0)
+			numBombs += isBomb(thisLine[j-1]) ? 1 : 0;
+		// j + 1
+		if (j < thisLine.length - 1)
+			numBombs += isBomb(thisLine[j+1]) ? 1 : 0;
+
+		// i + 1
+		if (nextLine != null)
+		{
+			// j - 1
+			if (j > 0)
+				numBombs += isBomb(nextLine[j-1]) ? 1 : 0;
+			// j
+			numBombs += isBomb(nextLine[j]) ? 1 : 0;
+			// j + 1
+			if (j < nextLine.length - 1)
+				numBombs += isBomb(nextLine[j+1]) ? 1 : 0;
+		}
+		
+		return numBombs;
+	}
+	
+	private function isBomb(tile:Tile):Bool
+	{
+		if (tile == null)
+			return false;
+		
+		if (tile.className == "bomb")
+			return true;
+			
+		return false;
+	}
 
     /**
 	 * Function that is called once every frame.
