@@ -14,7 +14,7 @@ import motion.Actuate;
  */
 class Player extends FlxSprite
 {
-	private static var SPEED = 200;
+	private static var ANIMATION_DURATION = 0.25;
 
 	private var anchor:FlxSprite;
 
@@ -32,8 +32,6 @@ class Player extends FlxSprite
 
 	public function new(X:Float, Y:Float)
 	{
-
-
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
 		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
@@ -53,8 +51,6 @@ class Player extends FlxSprite
 
 		if (isStopped)
 			return;
-
-		var duration:Float = 0.5;
 
 		var horDiff:Float = Game.BLOCK_WIDTH;
 		var verDiff:Float = Game.BLOCK_HEIGHT;
@@ -83,13 +79,13 @@ class Player extends FlxSprite
 			}
 
 			// check if should move - create action to move if yes
-			if ( this.shouldMove(horMove, verMove, duration) )
+			if ( this.shouldMove(horMove, verMove) )
 			{
 				canMove = false;
 				var xPath = this.x + horMove;
 				var yPath = this.y + verMove;
 
-				Actuate.tween(this, duration, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
+				Actuate.tween(this, ANIMATION_DURATION, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
 			}
 
 			anchor.x = anchorX;
@@ -114,12 +110,12 @@ class Player extends FlxSprite
 		this.canMove = true;
 	}
 
-	private function shouldMove(horMove:Float, verMove:Float, duration:Float ):Bool
+	private function shouldMove(horMove:Float, verMove:Float):Bool
 	{
 		if (horMove == 0 && verMove == 0)
 			return false;
 		
-		var aTile:Tile = Game.instance.getTileFromWorld(this.x + horMove, this.y + verMove);
+		var aTile:Tile = Game.instance.getTileFromWorld(anchorX + horMove, anchorY + verMove);
 		
 		if (aTile.blocking)
 		{
@@ -141,7 +137,7 @@ class Player extends FlxSprite
 				return false;
 			}
 			
-			bear.redirectBear(duration, horMove, verMove);
+			bear.redirectBear(ANIMATION_DURATION, horMove, verMove);
 		}
 		
 		return true;
