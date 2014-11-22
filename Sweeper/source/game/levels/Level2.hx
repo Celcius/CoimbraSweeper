@@ -11,9 +11,9 @@ class Level2 extends Level
         "t#t*ttttttt",
         "tP########t",
         "t#########t",
-        "t#########t",
+        "tB########t",
+		"tb########t",
 		"t#########t",
-		"tR########t",
 		"t#########t",
 		"ttttttttttt",
     ];
