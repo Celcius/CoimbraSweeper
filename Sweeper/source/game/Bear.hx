@@ -5,6 +5,7 @@ import flixel.group.FlxGroup;
 import flixel.util.FlxPoint;
 import game.tiles.Bed;
 import haxe.macro.Expr.Var;
+import game.tiles.Water;
 
 import motion.Actuate;
 
@@ -27,20 +28,19 @@ class Bear extends FlxSprite
 	public var isStopped: Bool = false;
 	public var canMove:Bool = true;
 
-	var dir:FlxPoint = EAST;
+	private var SPRITE_WIDTH = 91;
+	private var SPRITE_HEIGHT = 136;
 
-	public function new(direction:FlxPoint)
+	public function new(X:Float, Y:Float)
 	{
-		super();
-		Reg.bear = this;
-
-		loadGraphic("assets/images/bear_sheet.png", false, 91, 136);
+		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y - 75);
+		loadGraphic("assets/images/bear_sheet.png", false, SPRITE_WIDTH, SPRITE_HEIGHT);
 		
 		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9], 5, true);
 		this.animation.play("iddle");
 
-		
 		this.immovable = true;
+		Reg.bear = this;
 	}
 
 	public function redirectBear(duration:Float, horMove:Float, verMove:Float)
@@ -97,7 +97,7 @@ class Bear extends FlxSprite
 	{
 		super.update();
 
-		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(this.x + this.width / 2), Game.instance.getGridY(this.y + this.height / 2));
+		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY));
 		if (Game.instance.isBomb( tile ))
 		{
 			Game.instance.killBear();
@@ -110,9 +110,47 @@ class Bear extends FlxSprite
 		}
 
 		if (tile.className == "water" && canMove){
+			var horDiff:Float = Game.BLOCK_WIDTH;
+			var verDiff:Float = Game.BLOCK_HEIGHT;
+			var horMove:Float = 0.0;
+			var verMove:Float = 0.0;
 
+			switch(cast(tile,Water).direction){
+				case Water.LEFT: horMove = -horDiff;
+				case Water.RIGHT: horMove = horDiff;
+				case Water.UP: verMove = -verDiff;
+				case Water.DOWN: verMove = verDiff;
+			}
+			
+			if (shouldMove(horMove, verMove))
+				updateDirection(0.5, horMove, verMove);
 		}
 
+	}
+	
+		private function shouldMove(horMove:Float, verMove:Float):Bool
+	{
+		if (horMove == 0 && verMove == 0)
+			return false;
+
+		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
+
+		if (aTile.blocking)
+		{
+			trace("SELF BLOCK");
+			return false;
+		}
+
+		var player:Player = Reg.player;
+		var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
+
+		if (aTile == bTile)
+		{
+			trace("FOUND PLAYER");
+			return false;
+		}
+
+		return true;
 	}
 
 	public var anchorX(get, never):Float;
