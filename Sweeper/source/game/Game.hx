@@ -4,9 +4,7 @@ import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import game.levels.Level;
-import game.tiles.Grass;
-import game.tiles.Terrain;
-import game.tiles.Bomb;
+import game.tiles.*;
 
 class Game extends FlxState {
 
@@ -36,7 +34,7 @@ class Game extends FlxState {
         GMAP.set('#', Grass);
         GMAP.set('_', Terrain);
         GMAP.set('*', Bomb);
-        GMAP.set('t', Grass);
+        GMAP.set('t', Tree);
 
         _gridGroup = new FlxSpriteGroup();
         add(_gridGroup);
