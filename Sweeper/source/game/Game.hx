@@ -26,7 +26,7 @@ class Game extends FlxState {
 
 	private var player:Player;
 
-    public static var BLOCK_WIDTH:Int = 101;
+    public static var BLOCK_WIDTH:Int = 100;
     public static var BLOCK_HEIGHT:Int = 83;
 
     private var gridW:Int;
