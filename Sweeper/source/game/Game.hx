@@ -346,8 +346,8 @@ class Game extends FlxState {
 		Reg.player.setStopped(true);
 		Reg.bear.setStopped(true);
 
-		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, text,30);
-		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, "Press R to retry...", 25);
+		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, 0, text,30);
+		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, 0, "Press R to retry...", 25);
 
 		label1.color = 0xff000000;
 		label1.scrollFactor.x = label1.scrollFactor.y = 0;
@@ -375,7 +375,7 @@ class Game extends FlxState {
 			var xp : Explosion =  new Explosion(x, y, depth);
 			xp.createBloodParticles();
 			add(xp);
-			xp.start(Explosion.TIME_SPAN);
+			xp.start(true,Explosion.TIME_SPAN);
 	}
 
 	public function mineExplosion(x:Float,y:Float,depth:Int) : Void
@@ -383,6 +383,6 @@ class Game extends FlxState {
 			var xp : Explosion =  new Explosion(x, y, depth);
 			xp.createMineParticles();
 			add(xp);
-			xp.start(Explosion.TIME_SPAN);
+			xp.start(true, Explosion.TIME_SPAN);
 	}
 }
