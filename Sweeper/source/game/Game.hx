@@ -90,7 +90,7 @@ class Game extends FlxState {
 	
 	private function createRageBar():Void
 	{
-		Reg.rageBar = new RageBar(400,350);
+		Reg.rageBar = new RageBar();
 		add(Reg.rageBar);
 	}
 	
@@ -98,6 +98,8 @@ class Game extends FlxState {
 	{
 		Reg.bear = new Bear();
 		add(Reg.bear);
+		Reg.bear.y = FlxG.height / 2;
+		Reg.bear.x = Reg.bear.width;
 		
 	}
 }

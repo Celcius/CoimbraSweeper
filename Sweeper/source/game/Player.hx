@@ -68,6 +68,19 @@ class Player extends FlxSprite
 		{
 			this.velocity.y = 0;
 		}
+		
+		if (Reg.bear != null && FlxG.collide(this, Reg.bear))
+		{
+			if (FlxG.keys.anyPressed(["W","UP"]))
+				Reg.bear.redirectBear(Bear.NORTH);
+			else if (FlxG.keys.anyPressed(["S","DOWN"]))
+				Reg.bear.redirectBear(Bear.SOUTH);
+			else if (FlxG.keys.anyPressed(["A","LEFT"]))
+				Reg.bear.redirectBear(Bear.WEST);
+			else if (FlxG.keys.anyPressed(["D","RIGHT"]))
+				Reg.bear.redirectBear(Bear.EAST);
+		}
+		
 	}
 	
 }
