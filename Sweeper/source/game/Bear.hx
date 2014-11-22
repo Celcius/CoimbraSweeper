@@ -101,7 +101,7 @@ class Bear extends FlxSprite
 	{
 		super.update();
 
-		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(this.x + this.width / 2), Game.instance.getGridY(this.y + this.height / 2));
+		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY));
 		if (Game.instance.isBomb( tile ))
 		{
 			Game.instance.killBear();
