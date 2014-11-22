@@ -42,7 +42,7 @@ class Player extends FlxSprite
 	override public function update():Void
 	{
 		super.update();
-		
+
 		if (isStopped)
 			return;
 
@@ -103,8 +103,13 @@ class Player extends FlxSprite
 		anchor.x = anchorX;
 		anchor.y = anchorY;
 
+		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
+		if (currentTile != null){
+			currentTile.setExplored(true);
+		}
+
 		super.update();
-		
+
 		if (Game.instance.isBomb( Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY))))
 		{
 			Game.instance.killPlayerMine();
@@ -154,7 +159,7 @@ class Player extends FlxSprite
 	function get_anchorY() {
 		return y + height-5;
 	}
-	
+
 	public function setStopped(stopped : Bool):Void
 	{
 		isStopped = stopped;

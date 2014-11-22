@@ -270,6 +270,11 @@ class Game extends FlxState {
 		return Math.floor(Y * BLOCK_HEIGHT);
 	}
 
+	public function getTileFromWorld(X:Float, Y:Float):game.Tile
+	{
+		return getTile(getGridX(X), getGridY(Y));
+	}
+
     public function getTile(X:Int, Y:Int):game.Tile
     {
         if (X >= 0 && X < gridW && Y >= 0 && Y < gridH){
@@ -283,13 +288,14 @@ class Game extends FlxState {
 	 */
     override public function update():Void
     {
+
 		if (_levelIndex >= _levels.length)
 		{
 			loadLevel(_levelIndex);
 			return;
 		}
-			
-        trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
+
+        //trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
 		if (_gameOver && FlxG.keys.anyPressed(["R"]))
 		{
@@ -305,6 +311,7 @@ class Game extends FlxState {
 		}
 
         FlxG.collide(player, playerColliderGroup);
+
         super.update();
 
         playerLayer.sort(sortObjs, FlxSort.ASCENDING);
