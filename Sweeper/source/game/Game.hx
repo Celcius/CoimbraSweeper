@@ -11,7 +11,7 @@ import game.tiles.*;
 class Game extends FlxState {
 
 	private var player:Player;
-	
+
     public static var BLOCK_WIDTH:Int = 101;
     public static var BLOCK_HEIGHT:Int = 83;
 
@@ -39,10 +39,11 @@ class Game extends FlxState {
         GMAP.set('_', Terrain);
         GMAP.set('*', Bomb);
         GMAP.set('t', Tree);
+        GMAP.set('.', Empty);
 
         _gridGroup = new FlxSpriteGroup();
         add(_gridGroup);
-		
+
 		drawGrid(_level.getGrid());
         populateNumberGrid();
 		createRageBar();
@@ -50,7 +51,7 @@ class Game extends FlxState {
 
 		player = new Player(BLOCK_WIDTH * 0, BLOCK_HEIGHT * 1.5);
 		add(player);
-		
+
 		FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
 
         super.create();
@@ -85,17 +86,17 @@ class Game extends FlxState {
     {
         super.update();
     }
-	
+
 	private function createRageBar():Void
 	{
 		Reg.rageBar = new RageBar(400,350);
 		add(Reg.rageBar);
 	}
-	
+
 	private function createBear():Void
 	{
 		Reg.bear = new Bear();
 		add(Reg.bear);
-		
+
 	}
 }

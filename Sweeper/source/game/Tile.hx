@@ -15,6 +15,6 @@ class Tile extends FlxSprite
 		className = name;
 
 
-		loadGraphic( "assets/images/tiles/Stone_Block.png", true, 101, 171);
+		//loadGraphic( "assets/images/tiles/Stone_Block.png", true, 101, 171);
 	}
 }
