@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
+import game.Game;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -28,7 +29,7 @@ class MenuState extends FlxState
 
     private function clickPlay():Void
     {
-        FlxG.switchState(new PlayState());
+        FlxG.switchState(new Game());
     }
 	
 	/**
