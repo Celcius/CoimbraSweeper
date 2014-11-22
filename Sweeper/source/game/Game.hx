@@ -19,6 +19,8 @@ class Game extends FlxState {
         "############",
     ];
 
+    public var _grid:Array<String>;
+
     private var numberGrid:Array<Array<Int>>;
 
     public static var GMAP:Map<String,String>;
@@ -28,6 +30,7 @@ class Game extends FlxState {
 
     override public function create():Void
     {
+        _grid = GRID;
         GMAP = new Map<String, String>();
         GMAP.set('#', 'Grass_Block');
         GMAP.set('*', 'Brown_Block');
@@ -36,8 +39,8 @@ class Game extends FlxState {
         add(_gridGroup);
 
 
-        drawGrid(GRID);
-        populateNumberGrid(GRID);
+        drawGrid(_grid);
+        populateNumberGrid(_grid);
 
         super.create();
     }
