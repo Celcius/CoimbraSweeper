@@ -3,6 +3,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.util.FlxPoint;
+import game.tiles.Bed;
 import haxe.macro.Expr.Var;
 
 import motion.Actuate;
@@ -46,11 +47,6 @@ class Bear extends FlxSprite
 	{
 		if (isStopped)
 			return;
-
-		if (horMove > 0)
-			this.scale.x = 1;
-		else if (horMove < 0)
-			this.scale.x = -1;
 
 		updateDirection(duration, horMove, verMove);
 
@@ -108,6 +104,8 @@ class Bear extends FlxSprite
 		}
 		else if (Game.instance.isBed(tile))
 		{
+			var bed:Bed = cast (tile, Bed);
+			bed.sleep();
 			Game.instance.finishGame();
 		}
 
