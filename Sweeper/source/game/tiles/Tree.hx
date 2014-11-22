@@ -6,29 +6,28 @@ import game.Game;
 
 class Tree extends Tile
 {
-	private var grassSprite:Grass;
+	private var treeSprite:TreeSprite;
 
 	private var collider:FlxSprite;
 
 	public function new (X:Float , Y:Float)
 	{
-		super(X,Y-30, "tree");
-		loadGraphic( "assets/images/tiles/Tree_Tall.png", true, 101, 171);
+		super(X,Y, "tree");
+		loadGraphic( "assets/images/tiles/Grass_Block.png", true, 101, 171);
 
-		grassSprite = new Grass(X,Y);
-		grassSprite.explored = true;
-		explored = true;
+		treeSprite = new TreeSprite(X,Y-30);
+		Game.instance.playerLayer.add(treeSprite);
 
-		collider = new FlxSprite(X,Y+51);
-		collider.makeGraphic(Math.floor(width), 81, 0x55FF0000);
+		collider = new FlxSprite(X+5,Y+51+5);
+		collider.makeGraphic(Math.floor(width)-10, 81-70, 0x99FF0000);
 		Game.instance.playerColliderGroup.add(collider);
 		collider.immovable = true;
 	}
 
 	override public function draw():Void
 	{
-		grassSprite.draw();
+		//grassSprite.draw();
 		super.draw();
-		collider.draw();
+		//collider.draw();
 	}
 }

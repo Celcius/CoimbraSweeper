@@ -5,21 +5,20 @@ import game.Tile;
 
 class Bomb extends Tile
 {
-	private var terrainSprite:Terrain;
+	private var bombSprite:FlxSprite;
 
 	public function new (X:Float , Y:Float)
 	{
-		super(X,Y-10, "bomb");
-		loadGraphic( "assets/images/tiles/Key.png", true, 101, 171);
+		super(X,Y, "bomb");
+		loadGraphic( "assets/images/tiles/Brown_Block.png", true, 101, 171);
 
-		terrainSprite = new Terrain(X,Y);
-		terrainSprite.explored = true;
-		explored = true;
+		bombSprite = new FlxSprite(X,Y-15);
+		bombSprite.loadGraphic( "assets/images/tiles/Key.png", true, 101, 171);
+		Game.instance.playerLayer.add(bombSprite);
 	}
 
 	override public function draw():Void
 	{
-		terrainSprite.draw();
 		super.draw();
 	}
 }

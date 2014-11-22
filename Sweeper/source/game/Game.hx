@@ -1,12 +1,15 @@
 package game;
 
+import flixel.util.FlxSort;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.util.FlxRandom;
 import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.group.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.FlxObject;
 import flixel.FlxCamera;
 import flixel.util.FlxPoint;
 import game.levels.Level;
@@ -38,12 +41,24 @@ class Game extends FlxState {
 
     public var playerColliderGroup:FlxGroup;
 
+    public var layers:FlxGroup;
+    public var groundLayer:FlxGroup;
+    public var playerLayer:FlxSpriteGroup;
+    public var topLayer:FlxGroup;
+
 
     public function new(level:Level)
     {
         super();
         _level = level;
         instance = this;
+
+        groundLayer = new FlxGroup();
+        playerLayer = new FlxSpriteGroup();
+        topLayer = new FlxGroup();
+        add(groundLayer);
+        add(playerLayer);
+        add(topLayer);
 
         playerColliderGroup = new FlxGroup();
     }
@@ -57,7 +72,7 @@ class Game extends FlxState {
         GMAP.set('*', Bomb);
         GMAP.set('t', Tree);
         GMAP.set('.', Empty);
-		
+
 		GMAP.set('P', Grass); // player
 
 		GMAP.set('U', Grass); // bear
@@ -66,7 +81,7 @@ class Game extends FlxState {
 		GMAP.set('R', Grass); // bear
 
         _gridGroup = new FlxSpriteGroup();
-        add(_gridGroup);
+        //add(_gridGroup);
 
 		drawGrid(_level.getGrid());
         populateNumberGrid();
@@ -76,7 +91,7 @@ class Game extends FlxState {
 		_gameOver = false;
 
 		FlxG.camera.setBounds(0 , 3 * BLOCK_HEIGHT / 5, _grid[0].length * BLOCK_WIDTH, _grid.length * BLOCK_HEIGHT, true);
-		
+
 		if (player != null)
 			FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
 		else
@@ -101,15 +116,17 @@ class Game extends FlxState {
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
-				
+                groundLayer.add(tile);
+
 				if (GMAPkey == 'P')
 					createPlayer(j, i); // X=j, Y=i
-					
+
 				if (GMAPkey == 'U' ||
 					GMAPkey == 'D' ||
 					GMAPkey == 'L' ||
 					GMAPkey == 'R')
 					createBear(j, i, GMAPkey);
+
             }
             gridW = row.length;
         }
@@ -200,7 +217,7 @@ class Game extends FlxState {
     {
         return Math.floor((Y-3 * BLOCK_HEIGHT / 5)/BLOCK_HEIGHT);
     }
-	
+
 	public static function getWorldX(X:Int):Float
 	{
 		return Math.floor(X * BLOCK_WIDTH);
@@ -235,7 +252,25 @@ class Game extends FlxState {
 
         FlxG.collide(player, playerColliderGroup);
         super.update();
+
+        playerLayer.sort(sortObjs, FlxSort.ASCENDING);
     }
+
+    public static inline function sortObjs(Order:Int, Obj1:FlxObject, Obj2:FlxObject):Int
+    {
+        var obj1Offset =0;
+        var obj2Offset =0;
+
+        if (Std.is(Obj1, TreeSprite)){
+            obj1Offset = 50;
+        }
+        if (Std.is(Obj2, TreeSprite)){
+            obj2Offset = 50;
+        }
+
+        return FlxSort.byValues(Order, Obj1.y + obj1Offset, Obj2.y + obj2Offset);
+
+}
 
 	private function createRageBar():Void
 	{
@@ -245,6 +280,7 @@ class Game extends FlxState {
 
 	private function createBear(X:Int, Y:Int, direction:String):Void
 	{
+
 		var dir:FlxPoint = null;
 		if (direction == 'U')
 			dir = Bear.NORTH;
@@ -254,20 +290,20 @@ class Game extends FlxState {
 			dir = Bear.WEST;
 		else if (direction == 'R')
 			dir = Bear.EAST;
-		
+
 		Reg.bear = new Bear(dir);
-		add(Reg.bear);
+		playerLayer.add(Reg.bear);
 
 		Reg.bear.x = getWorldX(X);
 		Reg.bear.y = getWorldY(Y);
 	}
-	
+
 	private function createPlayer(X:Int, Y:Int)
 	{
 		player = new Player(getWorldX(X), getWorldY(Y));
-		add(player);
+		playerLayer.add(player);
 	}
-	
+
 	public function killPlayerBear():Void
 	{
 		if (!_gameOver)
@@ -289,7 +325,7 @@ class Game extends FlxState {
 			gameOver("You woke the Bear!\nWhen your torso flew into him...");
 		}
 	}
-	
+
 	public function killBear():Void
 	{
 		if (!_gameOver)
@@ -300,16 +336,16 @@ class Game extends FlxState {
 			gameOver("You woke the Bear!\nFor the last time...");
 		}
 	}
-	
+
 	function gameOver(text : String) : Void
 	{
 		_gameOver = true;
 		Reg.player.setStopped(true);
 		Reg.bear.setStopped(true);
-		
-		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, text,30);
-		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, "Press R to retry...", 25);
-		
+
+		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, 0, text,30);
+		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, 0, "Press R to retry...", 25);
+
 		label1.color = 0xff000000;
 		label1.scrollFactor.x = label1.scrollFactor.y = 0;
 		label1.alignment = "center";
@@ -318,32 +354,32 @@ class Game extends FlxState {
 		label1.borderSize = 3;
 		label1.x -= label1.width / 2;
 
-		label2.color = 0xff000000;		
+		label2.color = 0xff000000;
 		label2.scrollFactor.x = label2.scrollFactor.y = 0;
 		label2.alignment = "center";
 		label2.x -= label2.width / 2;
 		label2.borderStyle = FlxText.BORDER_OUTLINE;
 		label2.borderColor = 0xffffffff;
 		label2.borderSize = 3;
-		
+
 		add(label1);
 		add(label2);
-		
+
 	}
-	
+
 	public function bloodExplosion(x:Float,y:Float,depth:Int) : Void
 	{
 			var xp : Explosion =  new Explosion(x, y, depth);
 			xp.createBloodParticles();
 			add(xp);
-			xp.start(Explosion.TIME_SPAN);
+			xp.start(true,Explosion.TIME_SPAN);
 	}
-	
+
 	public function mineExplosion(x:Float,y:Float,depth:Int) : Void
 	{
 			var xp : Explosion =  new Explosion(x, y, depth);
 			xp.createMineParticles();
 			add(xp);
-			xp.start(Explosion.TIME_SPAN);
+			xp.start(true, Explosion.TIME_SPAN);
 	}
 }
