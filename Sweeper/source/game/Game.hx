@@ -33,7 +33,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [];//[new Level1(), new Level2() ];
+	private var _levels : Array<Level> = [new Level1(), new Level2() ];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
