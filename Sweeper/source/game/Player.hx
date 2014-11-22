@@ -26,15 +26,17 @@ class Player extends FlxSprite
 	var isStopped : Bool = false;
 	var canMove:Bool = true;
 
-	private var SPRITE_WIDTH = 68;
-	private var SPRITE_HEIGHT = 78;
+	private var SPRITE_WIDTH = 92;
+	private var SPRITE_HEIGHT = 99;
 
 
 	public function new(X:Float, Y:Float)
 	{
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
-		loadGraphic( "assets/images/tiles/Character_Horn_Girl.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
-
+		loadGraphic("assets/images/ranger_sheet.png", false, SPRITE_WIDTH, SPRITE_HEIGHT);
+				
+		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9,10,11,12], 5, true);
+		this.animation.play("iddle");
 		anchor = new FlxSprite(anchorX, anchorY);
 		anchor.makeGraphic(2,2, 0xFFFF0000);
 		anchor.makeGraphic(2, 2, 0xFFFF0000);
@@ -114,32 +116,31 @@ class Player extends FlxSprite
 	{
 		if (horMove == 0 && verMove == 0)
 			return false;
-		
-		var aTile:Tile = Game.instance.getTileFromWorld(anchorX + horMove, anchorY + verMove);
-		
+
+		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
+
 		if (aTile.blocking)
 		{
 			trace("SELF BLOCK");
 			return false;
 		}
-			
+
 		var bear:Bear = Reg.bear;
-		var bTile:Tile = Game.instance.getTileFromWorld(bear.x, bear.y);
-			
+		var bTile:Tile = Game.instance.getTileFromWorld(bear.anchorX, bear.anchorY);
+
 		if (aTile == bTile)
 		{
 			trace("FOUND BEAR");
-			
-			var cTile:Tile = Game.instance.getTileFromWorld(bear.x + horMove, bear.y + verMove);
+
+			var cTile:Tile = Game.instance.getTileFromWorld(bear.anchorX + horMove, bear.anchorY + verMove);
 			if (cTile.blocking)
 			{
 				trace("BEAR BLOCK");
 				return false;
 			}
-			
 			bear.redirectBear(ANIMATION_DURATION, horMove, verMove);
 		}
-		
+
 		return true;
 	}
 
