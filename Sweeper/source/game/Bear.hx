@@ -29,23 +29,18 @@ class Bear extends FlxSprite
 		Reg.bear = this;
 		loadGraphic("assets/images/bear_sheet.png", false, 96, 136);
 		
-		retirectBear(direction);
+		updateDirection(direction);
 		
 		this.immovable = true;
 	}
 
 	public function redirectBear(newDir:FlxPoint)
 	{
+
 		if (isStopped)
 			return;
-		this.acceleration = new FlxPoint(0,0);
-		this.dir = newDir;
-		this.velocity = new FlxPoint( dir.x * SPEED, dir.y * SPEED);
 
-		if (this.velocity.x < 0)
-			this.scale.x = -1;
-		if (this.velocity.x > 0)
-			this.scale.x = 1;
+		updateDirection(newDir);
 
 		Reg.rageBar.incrementRage();
 
@@ -57,6 +52,18 @@ class Bear extends FlxSprite
 			 Reg.game.killPlayerBear();
 
 		}
+	}
+	
+	public function updateDirection(newDir:FlxPoint)
+	{
+		this.acceleration = new FlxPoint(0,0);
+		this.dir = newDir;
+		this.velocity = new FlxPoint( dir.x * SPEED, dir.y * SPEED);
+
+		if (this.velocity.x < 0)
+			this.scale.x = -1;
+		if (this.velocity.x > 0)
+			this.scale.x = 1;
 	}
 
 	public function setStopped( stopped : Bool)

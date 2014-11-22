@@ -74,10 +74,6 @@ class Game extends FlxState {
 		createRageBar();
 
 		_gameOver = false;
-		
-		player = new Player(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 1.5);
-		
-		add(player);
 
 		FlxG.camera.setBounds(0 , 3 * BLOCK_HEIGHT / 5, _grid[0].length * BLOCK_WIDTH, _grid.length * BLOCK_HEIGHT, true);
 		
