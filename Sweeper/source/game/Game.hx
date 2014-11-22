@@ -6,14 +6,12 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.FlxCamera;
 import game.levels.Level;
-import game.tiles.Grass;
-import game.tiles.Terrain;
-import game.tiles.Bomb;
+import game.tiles.*;
 
 class Game extends FlxState {
 
 	private var player:Player;
-	
+
     public static var BLOCK_WIDTH:Int = 101;
     public static var BLOCK_HEIGHT:Int = 83;
 
@@ -40,11 +38,12 @@ class Game extends FlxState {
         GMAP.set('#', Grass);
         GMAP.set('_', Terrain);
         GMAP.set('*', Bomb);
-        GMAP.set('t', Grass);
+        GMAP.set('t', Tree);
+        GMAP.set('.', Empty);
 
         _gridGroup = new FlxSpriteGroup();
         add(_gridGroup);
-		
+
 		drawGrid(_level.getGrid());
         populateNumberGrid();
 		createRageBar();
@@ -52,7 +51,7 @@ class Game extends FlxState {
 
 		player = new Player(BLOCK_WIDTH * 0, BLOCK_HEIGHT * 1.5);
 		add(player);
-		
+
 		FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
 
         super.create();
@@ -80,26 +79,37 @@ class Game extends FlxState {
 
     }
 
+    public static function getGridX(X:Float):Float
+    {
+        return Math.floor( X/BLOCK_WIDTH);
+    }
+    public static function getGridY(Y:Float):Float
+    {
+        return Math.floor((Y+23)/BLOCK_HEIGHT);
+    }
+
     /**
 	 * Function that is called once every frame.
 	 */
     override public function update():Void
     {
+        trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
+
         super.update();
     }
-	
+
 	private function createRageBar():Void
 	{
 		Reg.rageBar = new RageBar();
 		add(Reg.rageBar);
 	}
-	
+
 	private function createBear():Void
 	{
 		Reg.bear = new Bear();
 		add(Reg.bear);
 		Reg.bear.y = FlxG.height / 2;
 		Reg.bear.x = Reg.bear.width;
-		
+	
 	}
 }
