@@ -5,6 +5,7 @@ import flixel.group.FlxGroup;
 import flixel.util.FlxPoint;
 import haxe.macro.Expr.Var;
 
+import motion.Actuate;
 
 /**
  * ...
@@ -19,7 +20,9 @@ class Bear extends FlxSprite
 	public static var WEST : FlxPoint = new FlxPoint(-1, 0);
 	public static var EAST : FlxPoint  = new FlxPoint(1, 0);
 	public static var SPEED : Float = 5;
+	
 	public var isStopped: Bool = false;
+	
 
 	var dir:FlxPoint = EAST;
 	
@@ -29,18 +32,17 @@ class Bear extends FlxSprite
 		Reg.bear = this;
 		loadGraphic("assets/images/bear_sheet.png", false, 96, 136);
 		
-		updateDirection(direction);
+		updateDirection(direction, 0, 0, 0);
 		
 		this.immovable = true;
 	}
 
-	public function redirectBear(newDir:FlxPoint)
+	public function redirectBear(newDir:FlxPoint, duration:Float, horMove:Float, verMove:Float)
 	{
-
 		if (isStopped)
 			return;
 
-		updateDirection(newDir);
+		updateDirection(newDir, duration, horMove, verMove);
 
 		Reg.rageBar.incrementRage();
 
@@ -54,16 +56,23 @@ class Bear extends FlxSprite
 		}
 	}
 	
-	public function updateDirection(newDir:FlxPoint)
+	public function updateDirection(newDir:FlxPoint, duration:Float, horMove:Float, verMove:Float)
 	{
 		this.acceleration = new FlxPoint(0,0);
 		this.dir = newDir;
-		this.velocity = new FlxPoint( dir.x * SPEED, dir.y * SPEED);
 
 		if (this.velocity.x < 0)
 			this.scale.x = -1;
 		if (this.velocity.x > 0)
 			this.scale.x = 1;
+			
+		if (duration != 0)
+		{
+			var xPath = this.x + horMove;
+			var yPath = this.y + verMove;
+
+			Actuate.tween(this, duration, { x:xPath, y:yPath } );
+		}
 	}
 
 	public function setStopped( stopped : Bool)
