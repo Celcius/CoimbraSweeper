@@ -55,15 +55,15 @@ class Game extends FlxState {
     public function new(levelIndex : Int)
     {
         super();
-		
+
 		if (levelIndex >= _levels.length)
 			levelIndex = _levels.length - 1;
 		if (levelIndex < 0)
 			levelIndex = 0;
-		
+
 			_levelIndex = levelIndex;
         _level = _levels[_levelIndex];
-		
+
         instance = this;
 
     }
@@ -73,7 +73,7 @@ class Game extends FlxState {
 		loadLevel(_levelIndex);
         super.create();
     }
-	
+
 	function loadLevel(levelIndex:Int)
 	{
 		for ( member in members)
@@ -86,10 +86,10 @@ class Game extends FlxState {
 		}
 		if (levelIndex < 0)
 			levelIndex = 0;
-		
+
 			_levelIndex = levelIndex;
         _level = _levels[_levelIndex];
-		
+
         groundLayer = new FlxGroup();
         playerLayer = new FlxSpriteGroup();
         topLayer = new FlxGroup();
@@ -113,7 +113,12 @@ class Game extends FlxState {
 		GMAP.set('D', Grass); // bear
 		GMAP.set('L', Grass); // bear
 		GMAP.set('R', Grass); // bear
-		
+
+		GMAP.set('>', WaterRight);
+		GMAP.set('<', WaterLeft);
+		GMAP.set('v', WaterDown);
+		GMAP.set('^', WaterUp);
+
 
         _gridGroup = new FlxSpriteGroup();
         //add(_gridGroup);
@@ -248,9 +253,9 @@ class Game extends FlxState {
 	{
 		if (tile == null)
 		return false;
-		
+
 		return tile.className == "bed";
-		
+
 	}
     public function getGridX(X:Float):Int
     {
@@ -302,7 +307,7 @@ class Game extends FlxState {
 			loadLevel(_levelIndex);
 			return;
 		}
-		
+
 		if (_levelFinished && FlxG.keys.anyPressed(["SPACE"]))
 		{
 			_levelIndex++;
@@ -397,15 +402,15 @@ class Game extends FlxState {
 			gameOver("You woke the Bear!\nFor the last time...");
 		}
 	}
-	
+
 	public function finishGame():Void
 	{
 		if (!_levelFinished)
 		{
 			Reg.bear.setStopped(true);
 			Reg.player.setStopped(true);
-			
-			
+
+
 			endScreenLabel("You put the bear to sleep!\nFor now...", "Press Space...");
 			_levelFinished = true;
 		}
@@ -421,7 +426,7 @@ class Game extends FlxState {
 
 	function endScreenLabel(text1:String, text2:String):Void
 	{
-		
+
 		var label1: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 1 / 3, 0, text1,30);
 		var label2: FlxText = new FlxText(FlxG.width / 2, FlxG.height * 3/ 6, 0, text2, 25);
 
@@ -440,7 +445,7 @@ class Game extends FlxState {
 		label2.borderColor = 0xffffffff;
 		label2.borderSize = 3;
 		label2.x -= label2.width / 2;
-		
+
 		add(label1);
 		add(label2);
 

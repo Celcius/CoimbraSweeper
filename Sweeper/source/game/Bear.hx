@@ -20,20 +20,20 @@ class Bear extends FlxSprite
 	public static var WEST : FlxPoint = new FlxPoint(-1, 0);
 	public static var EAST : FlxPoint  = new FlxPoint(1, 0);
 	public static var SPEED : Float = 5;
-	
+
 	public var isStopped: Bool = false;
-	
+	public var canMove:Bool = true;
 
 	var dir:FlxPoint = EAST;
-	
-	public function new(direction:FlxPoint) 
+
+	public function new(direction:FlxPoint)
 	{
 		super();
 		Reg.bear = this;
 		loadGraphic("assets/images/bear_sheet.png", false, 96, 136);
-		
+
 		updateDirection(direction, 0, 0, 0);
-		
+
 		this.immovable = true;
 	}
 
@@ -55,9 +55,11 @@ class Bear extends FlxSprite
 
 		}
 	}
-	
+
 	public function updateDirection(newDir:FlxPoint, duration:Float, horMove:Float, verMove:Float)
 	{
+		if (!canMove) return;
+
 		this.acceleration = new FlxPoint(0,0);
 		this.dir = newDir;
 
@@ -65,14 +67,20 @@ class Bear extends FlxSprite
 			this.scale.x = -1;
 		if (this.velocity.x > 0)
 			this.scale.x = 1;
-			
+
 		if (duration != 0)
 		{
+			canMove = false;
 			var xPath = this.x + horMove;
 			var yPath = this.y + verMove;
 
-			Actuate.tween(this, duration, { x:xPath, y:yPath } );
+			Actuate.tween(this, duration, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
 		}
+	}
+
+	public function setCanMove()
+	{
+		this.canMove = true;
 	}
 
 	public function setStopped( stopped : Bool)
@@ -80,13 +88,13 @@ class Bear extends FlxSprite
 		isStopped = stopped;
 		if(stopped)
 			this.velocity = new FlxPoint(0, 0);
-		
+
 	}
-	
+
 	public override function update() : Void
 	{
 		super.update();
-		
+
 		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(this.x + this.width / 2), Game.instance.getGridY(this.y + this.height / 2));
 		if (Game.instance.isBomb( tile ))
 		{
@@ -96,7 +104,11 @@ class Bear extends FlxSprite
 		{
 			Game.instance.finishGame();
 		}
-	
+
+		if (tile.className == "water" && canMove){
+
+		}
+
 	}
-	
+
 }

@@ -11,6 +11,7 @@ class Tile extends FlxSprite
     public var number:Int = 0;
     public var explored:Bool = false;
     public var blocking:Bool = false;
+    public var showNumber:Bool = true;
 
     private var grassNumber:FlxSprite;
     private var overlayNumber:FlxSprite;
@@ -32,7 +33,8 @@ class Tile extends FlxSprite
 
 	public function setExplored(explored:Bool):Void
 	{
-		if (this.explored != explored && explored){
+
+		if (showNumber && this.explored != explored && explored){
 			grassNumber.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
 			overlayNumber.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
 
@@ -43,7 +45,6 @@ class Tile extends FlxSprite
 
 		}
 		this.explored = explored;
-
 	}
 
 	override public function draw():Void
