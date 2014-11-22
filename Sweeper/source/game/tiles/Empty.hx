@@ -10,6 +10,7 @@ class Empty extends Tile
 		super(X,Y, "empty");
 		alpha = 0;
 		explored = true;
+		blocking = true;
 		//makeGraphic( Width : Int , Height : Int , ?Color : Int , ?Unique : Bool , ?Key : String )
 		//loadGraphic( "assets/images/tiles/Grass_Block.png", true, 101, 171);
 	}

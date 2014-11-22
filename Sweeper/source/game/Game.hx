@@ -15,6 +15,8 @@ class Game extends FlxState {
     public static var BLOCK_WIDTH:Int = 101;
     public static var BLOCK_HEIGHT:Int = 83;
 
+    private var gridW:Int;
+    private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
 
@@ -60,6 +62,7 @@ class Game extends FlxState {
     private function drawGrid(grid:Array<String>):Void
     {
         _grid = new Array<Array<Tile>>();
+        gridW = grid.length;
         for( i in 0... grid.length)
         {
             var row = grid[i];
@@ -71,6 +74,7 @@ class Game extends FlxState {
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
             }
+            gridH = row.length;
         }
     }
 
@@ -86,6 +90,14 @@ class Game extends FlxState {
     public static function getGridY(Y:Float):Float
     {
         return Math.floor((Y+23)/BLOCK_HEIGHT);
+    }
+
+    public static function getTile(X:int, Y:int):game.Tile
+    {
+        if (X >= 0 && X < gridW && Y >= 0 Y < gridH){
+            return _grid[Y][X];
+        }
+        return null;
     }
 
     /**

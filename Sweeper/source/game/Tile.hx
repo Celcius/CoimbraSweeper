@@ -8,6 +8,7 @@ class Tile extends FlxSprite
     public var className:String = "";
     public var number:Int = 0;
     public var explored:Bool = false;
+    public var blocking:Bool = false;
 
     private var _underSprite:Tile;
 
