@@ -7,6 +7,6 @@ class Tile extends FlxSprite
 	public function new(X:Float, Y:Float, tilename:String)
 	{
 		super (X, Y);
-		loadGraphic( "assets/images/tiles/Brown_Block.png", true, 101, 171);
+		loadGraphic( "assets/images/tiles/"+tilename+".png", true, 101, 171);
 	}
 }

@@ -7,11 +7,11 @@ import flixel.group.FlxSpriteGroup;
 class Game extends FlxState {
 
     public static var BLOCK_WIDTH:Int = 101;
-    public static var BLOCK_HEIGHT:Int = 171;
+    public static var BLOCK_HEIGHT:Int = 83;
 
     public static var GRID:Array<String> = [
-        "############",
-        "############",
+        "#*##########",
+        "#*##########",
         "############",
         "############",
         "############",
@@ -49,8 +49,8 @@ class Game extends FlxState {
             var row = grid[i];
             for ( j in 0...row.length )
             {
-                var tileName= GMAP.get('#');
-                var tile:Tile = new Tile(i*BLOCK_WIDTH, j*BLOCK_HEIGHT, tileName);
+                var tileName= GMAP.get(row.charAt(j));
+                var tile:Tile = new Tile(i*BLOCK_WIDTH, j*BLOCK_HEIGHT - 51, tileName);
                 _gridGroup.add(tile);
             }
         }
