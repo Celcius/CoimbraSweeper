@@ -11,11 +11,11 @@ import haxe.macro.Expr.Var;
 class Bear extends FlxGroup
 {
 	static var NORTH : FlxPoint = new FlxPoint(0, -1);
-	static var SOUTH : Int  = new FlxPoint(0, 1);
-	static var WEST : Int = new FlxPoint(-1, 0);
-	static var EAST : Int  = new FlxPoint(1, ');
+	static var SOUTH : FlxPoint  = new FlxPoint(0, 1);
+	static var WEST : FlxPoint = new FlxPoint(-1, 0);
+	static var EAST : FlxPoint  = new FlxPoint(1, 0);
 	var sprite : FlxSprite;
-	var dir:
+	//var dir:
 	
 	public function new() 
 	{
