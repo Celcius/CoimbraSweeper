@@ -60,9 +60,10 @@ class Game extends FlxState {
 		createRageBar();
 		createBear();
 
-		player = new Player(BLOCK_WIDTH * 0, BLOCK_HEIGHT * 1.5);
+		player = new Player(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 1.5);
 		add(player);
 
+		FlxG.camera.setBounds(BLOCK_WIDTH , 0, (_grid[0].length - 1) * BLOCK_WIDTH, _grid.length* BLOCK_HEIGHT, true);
 		FlxG.camera.follow(player, FlxCamera.STYLE_TOPDOWN, 1);
 
         super.create();
