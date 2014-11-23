@@ -8,7 +8,17 @@ class Level2 extends Level
     }
 
 	public var _grid:Array<String> = [
-        "t#t*ttttttt",
+        "SwwwSSSwwwS",
+        "t>>>>v<<<<t",
+		"tSSSSvSSSSt",
+        "ttP.B>>>vSt",
+		"t....tSSvSt",
+        "t..*..*..bt",
+		"tt._t...t_t",
+        "ttttttttttt",
+    ];
+	/*
+	 *         "t#t*ttttttt",
         "tP########t",
         "t#########t",
         "tB########t",
@@ -16,7 +26,7 @@ class Level2 extends Level
 		"t#########t",
 		"t#########t",
 		"ttttttttttt",
-    ];
+		*/
 
     override public function getGrid():Array<String>
     {
