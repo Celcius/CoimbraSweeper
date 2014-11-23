@@ -2,7 +2,9 @@ package game;
 
 import flixel.FlxSprite;
 import flixel.text.FlxText;
-
+import flixel.FlxG;
+import flixel.input.touch.FlxTouch;
+import flixel.util.FlxPoint;
 class Tile extends FlxSprite
 {
 
@@ -15,6 +17,8 @@ class Tile extends FlxSprite
     private var grassNumber:FlxSprite;
     private var overlayNumber:FlxSprite;
 
+	private var flag : FlxSprite;
+	
 	public function new(X:Float, Y:Float, name:String)
 	{
 		super (X, Y);
@@ -24,7 +28,7 @@ class Tile extends FlxSprite
 		grassNumber.blend = flash.display.BlendMode.OVERLAY;
 		grassNumber.alpha = 0.7;
 
-		overlayNumber = new FlxSprite(X,Y);
+		overlayNumber = new FlxSprite(X, Y);
 	}
 
 	public function setExplored(explored:Bool):Void
@@ -52,4 +56,35 @@ class Tile extends FlxSprite
 		}
 
 	}
+	
+	override public function update() : Void
+	{
+		super.update();
+		
+
+	}
+	
+	public function canPlantFlag() : Bool
+	{
+		return false;
+	}
+	
+	public function plantFlag() : Void
+	{
+		if (canPlantFlag())
+		{
+			if (flag == null)
+			{
+				flag = new FlxSprite(x+width / 2+3,y-30);
+				flag.loadGraphic("assets/images/flag.png");
+				Game.instance.playerLayer.add(flag);
+			}
+			else
+			{
+				flag.visible = ! flag.visible;
+			}
+		}
+		
+	}
+	
 }

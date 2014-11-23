@@ -9,9 +9,9 @@ class Level2 extends Level
 
 	public var _grid:Array<String> = [
         "ttttttttttttt",
-        "tttttttt***tt",
-		"tttSt______*t",
-        "tttt___**__*t",
+        "tttttttt___tt",
+		"tttSt____*_*t",
+        "tttt___***_*t",
 		"tP___B_tb__tt",
         "tttt______ttt",
 		"tttSttt*__*tt",
