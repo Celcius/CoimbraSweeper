@@ -160,11 +160,7 @@ class Game extends FlxState {
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
-                if (Std.is(tile, StoneWall)){
-                	playerLayer.add(tile);
-                } else {
-                	groundLayer.add(tile);
-                }
+                groundLayer.add(tile);
 
 				if (GMAPkey == 'P')
 					createPlayer(j, i); // X=j, Y=i

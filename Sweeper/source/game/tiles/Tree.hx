@@ -17,11 +17,6 @@ class Tree extends Tile
 		treeSprite = new TreeSprite(X,Y-30);
 		Game.instance.playerLayer.add(treeSprite);
 
-		collider = new FlxSprite(X+5,Y+51+5);
-		collider.makeGraphic(Math.floor(width)-10, 81-70, 0x99FF0000);
-		Game.instance.playerColliderGroup.add(collider);
-		collider.immovable = true;
-
 		this.blocking = true;
 	}
 }
