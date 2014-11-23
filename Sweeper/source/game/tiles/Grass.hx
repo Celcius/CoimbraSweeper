@@ -25,6 +25,9 @@ class Grass extends Tile
 	
 	override public function canPlantFlag() : Bool
 	{
+		if (this.explored)
+			return false;
+			
 		return true;
 	}
 }
