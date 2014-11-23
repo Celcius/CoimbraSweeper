@@ -118,6 +118,8 @@ class Game extends FlxState {
 		GMAP.set('<', WaterLeft);
 		GMAP.set('v', WaterDown);
 		GMAP.set('^', WaterUp);
+		GMAP.set('w', Waterfall);
+		GMAP.set('S', StoneWall);
 
 
         _gridGroup = new FlxSpriteGroup();

@@ -7,7 +7,6 @@ class Tile extends FlxSprite
 {
 
     public var className:String = "";
-	public var text:FlxText;
     public var number:Int = 0;
     public var explored:Bool = false;
     public var blocking:Bool = false;
@@ -20,9 +19,6 @@ class Tile extends FlxSprite
 	{
 		super (X, Y);
 		className = name;
-
-		text = new FlxText(X + 50, Y + 83, 0);
-		text.color = 0xFFFFFF;
 
 		grassNumber = new FlxSprite(X,Y);
 		grassNumber.blend = flash.display.BlendMode.OVERLAY;
@@ -51,17 +47,9 @@ class Tile extends FlxSprite
 	{
 		super.draw();
 
-		text.draw();
 		if (explored){
 			grassNumber.draw();
 		}
 
-	}
-
-	override public function update()
-	{
-		super.update();
-
-		//text.text = "" + number;
 	}
 }

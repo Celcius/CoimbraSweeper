@@ -8,7 +8,8 @@ class Level1 extends Level
     }
 
 	public var _grid:Array<String> = [
-        "#___#*#v####*#########",
+        "SSSSSSSwSSSSSSSSSwSSSS",
+        "#___#*#v####*####v####",
         "#_*_t#tv#*######tvt###",
         "#___###v##^##t##tvtt##",
         "#PB####>>>^##**ttvtt##",
