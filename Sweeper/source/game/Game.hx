@@ -487,6 +487,47 @@ public function killPlayerMine():Void
 
 			endScreenLabel(text, text2);
 	}
+	
+	public function discover(tileX:Int, tileY:Int)
+	{
+		var tile:Tile = getTile(tileX, tileY);
+		
+		if (tile == null || tile.explored == true)
+			return;
+			
+		if (tile.className == "grass" || tile.className == "terrain")
+		{
+			tile.setExplored(true);
+				
+			// top
+			var top:Tile = getTile(tileX, tileY - 1);
+			if (!top.explored)
+			{
+				discover(tileX, tileY - 1);
+			}
+			
+			// left
+			var left:Tile = getTile(tileX - 1, tileY);
+			if (!left.explored)
+			{
+				discover(tileX - 1, tileY);
+			}	
+			
+			// right
+			var right:Tile = getTile(tileX + 1, tileY);
+			if (!right.explored)
+			{
+				discover(tileX + 1, tileY);
+			}	
+			
+			// bot
+			var bot:Tile = getTile(tileX, tileY + 1);
+			if (!bot.explored)
+			{
+				discover(tileX, tileY + 1);
+			}
+		}
+	}
 
 	function endScreenLabel(text1:String, text2:String):Void
 	{

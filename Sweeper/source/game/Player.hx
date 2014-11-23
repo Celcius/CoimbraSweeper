@@ -114,29 +114,27 @@ class Player extends FlxSprite
 			anchor.y = anchorY;
 		}
 
-		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
-		if (currentTile != null){
-			currentTile.setExplored(true);
-		}
-
-
-		if (Game.instance.isBomb( currentTile) )
-		{
-			Game.instance.killPlayerMine();
-		}
-		
-		if (currentTile.className == "water")
-		{
-
-			Actuate.tween(this, ANIMATION_DURATION, { x:_prevPosition.x, y:_prevPosition.y } ).onComplete(this.setCanMove);
-			Game.instance.waterExplosion(x+ width/2 , y+ height/2, 1);
-		}
-
 	}
 
 	public function setCanMove()
 	{
 		this.canMove = true;
+		
+		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
+		
+		if (currentTile != null)
+		{
+			Game.instance.discover(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY));
+			
+			if (Game.instance.isBomb(currentTile))
+				Game.instance.killPlayerMine();
+				
+			else if (currentTile.className == "water")
+			{
+				Actuate.tween(this, ANIMATION_DURATION, { x:_prevPosition.x, y:_prevPosition.y } ).onComplete(this.setCanMove);
+				Game.instance.waterExplosion(x+ width/2 , y+ height/2, 1);
+			}
+		}
 	}
 
 	private function shouldMove(horMove:Float, verMove:Float):Bool
