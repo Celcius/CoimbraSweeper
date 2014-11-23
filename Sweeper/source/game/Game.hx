@@ -406,9 +406,9 @@ public function killPlayerMine():Void
 			mineExplosion(player.x+ player.width/2 , player.y+ player.height/2, 2);
 
 			#if android
-				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press the forest to hire a new Ranger...");
+				gameOver("You became Bear food!\nThe delicious smell awoke it...", "Press the forest to hire a new Ranger...");
 			#else
-				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press R to hire a new Ranger...");
+				gameOver("You became Bear food!\nThe delicious smell awoke it...", "Press R to hire a new Ranger...");
 			#end
 			remove(Reg.player);
 			Reg.player.destroy();

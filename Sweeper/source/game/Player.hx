@@ -13,12 +13,13 @@ import motion.Actuate;
  */
 class Player extends FlxSprite
 {
-	private static var ANIMATION_DURATION = 0.25;
+	private static var ANIMATION_DURATION = 0.20;
 
 	private var anchor:FlxSprite;
 
 	var isStopped : Bool = false;
 	var canMove:Bool = true;
+	var _prevPosition : FlxPoint;
 
 	private var SPRITE_WIDTH = 92;
 	private var SPRITE_HEIGHT = 99;
@@ -40,6 +41,7 @@ class Player extends FlxSprite
 
 	override public function update():Void
 	{
+
 		super.update();
 
 		if (isStopped)
@@ -100,7 +102,7 @@ class Player extends FlxSprite
 				canMove = false;
 				var xPath = this.x + horMove;
 				var yPath = this.y + verMove;
-
+				_prevPosition = new FlxPoint(this.x, this.y);
 				Actuate.tween(this, ANIMATION_DURATION, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
 			}
 
@@ -112,7 +114,7 @@ class Player extends FlxSprite
 		if (currentTile != null){
 			currentTile.setExplored(true);
 		}
-
+		
 		super.update();
 
 		if (Game.instance.isBomb( currentTile) )
@@ -120,11 +122,13 @@ class Player extends FlxSprite
 			Game.instance.killPlayerMine();
 		}
 		
-		
 		if (currentTile.className == "water")
 		{
-			Game.instance.killPlayerDrown();
+
+			Actuate.tween(this, ANIMATION_DURATION, { x:_prevPosition.x, y:_prevPosition.y } ).onComplete(this.setCanMove);
+			Game.instance.waterExplosion(x+ width/2 , y+ height/2, 1);
 		}
+
 	}
 
 	public function setCanMove()
