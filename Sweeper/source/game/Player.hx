@@ -127,6 +127,12 @@ class Player extends FlxSprite
 		{
 			Game.instance.killPlayerMine();
 		}
+		
+		
+		if (currentTile.className == "water")
+		{
+			Game.instance.killPlayerDrown();
+		}
 	}
 
 	public function setCanMove()
