@@ -109,7 +109,8 @@ class Game extends FlxState {
         GMAP.set('.', Grass);
         GMAP.set('_', Terrain);
         GMAP.set('*', Bomb);
-        GMAP.set('t', Tree);
+        GMAP.set('t', TreeSmall);
+		GMAP.set('T', Tree);
         GMAP.set(' ', Empty);
 		GMAP.set('b', Bed);
 
