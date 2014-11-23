@@ -9,7 +9,7 @@ class Level5 extends Level
 
 	public var _grid:Array<String> = [
         "ttttttttttttttttt",
-		"tSS>>>>>>v<<<<SSt",
+		"tSS>>>>>>vv<<SSt",
 		"tS>^<vvvb..>>^vSt",
 		"t>>>^^vttt.>>^<<t",
 		"t^>><<*.P_..>*<<t",
