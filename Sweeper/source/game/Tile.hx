@@ -77,12 +77,15 @@ class Tile extends FlxSprite
 		{
 			if (flag == null)
 			{
-				flag = new FlagSprite(x+width / 2+3,y);
+				flag = new FlagSprite(x+width / 2+5,y+5);
 				Game.instance.playerLayer.add(flag);
+				this.blocking = true;
 			}
 			else
 			{
 				flag.visible = ! flag.visible;
+				this.blocking = flag.visible;
+				
 			}
 		}
 
