@@ -15,13 +15,14 @@ class Terrain extends Tile
 	{
 		var changed:Bool = this.explored!=explored;
 
-		if (changed){
-			if (explored){
+		if (changed)
+		{
+			if (explored)
 				loadGraphic( "assets/images/tiles/Brown_Block.png", true, 101, 171);
-			} else {
+			else
 				loadGraphic( "assets/images/tiles/Dirt_Block.png", true, 101, 171);
-			}
 		}
+		
 		super.setExplored(explored);
 	}
 }

@@ -200,6 +200,12 @@ class Game extends FlxState {
 
 				var numBombs:Int = countBombs(i, j);
 				tile.number = numBombs;
+				
+				if (tile.className == "terrain")
+				{
+					tile.showNumber = true;
+					tile.setExplored(true);
+				}
             }
         }
     }
