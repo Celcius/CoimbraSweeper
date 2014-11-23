@@ -32,7 +32,7 @@ class Tile extends FlxSprite
 
 		if (showNumber && this.explored != explored && explored){
 			grassNumber.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
-			overlayNumber.loadGraphic( "assets/images/tiles/black/Grass_Block_"+number+".png", true, 101, 171);
+			overlayNumber.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
 
 			Game.instance.topLayer.add(overlayNumber);
 			overlayNumber.scale.x = overlayNumber.scale.y = 2;
