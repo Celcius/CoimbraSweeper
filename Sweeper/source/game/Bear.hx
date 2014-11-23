@@ -140,10 +140,14 @@ class Bear extends FlxSprite
 			return false;
 
 		var player:Player = Reg.player;
-		var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
+		if (player != null)
+		{
+				
+			var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
 
-		if (aTile == bTile)
-			return false;
+			if (aTile == bTile)
+				return false;
+		}
 
 		return true;
 	}
