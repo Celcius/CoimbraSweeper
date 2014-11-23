@@ -1,6 +1,6 @@
 package game.levels;
 
-class Level3 extends Level
+class Level6 extends Level
 {
     public function new()
     {
@@ -8,14 +8,16 @@ class Level3 extends Level
     }
 
 	public var _grid:Array<String> = [
-        "SwwwSSSwwwS",
-        "t>>>>v<<<<t",
-		"tSSSSvSSSSt",
-        "ttP.B>>>vSt",
-		"t_..._StvSt",
-        "t..*..*..bt",
-		"tt._....t_t",
-        "ttttttttttt",
+        "SSSSSSSSSSSSSSSSS",
+		"St.._*tttt*..tttS",		
+        "St..*______..tttS",
+        "Sttt*___.._...*tS",
+        "Sttt___**.*.*..tS",
+        "SP___B_*b__._..tS",
+        "Sttt___**..*_..tS",
+        "Stt*_______._tttS",
+        "St.*_*tttt*..tttS",		
+        "SSSSSSSSSSSSSSSSS",
 
     ];
 	/*

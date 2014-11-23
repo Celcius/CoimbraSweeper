@@ -10,10 +10,10 @@ class Level1 extends Level
 	public var _grid:Array<String> = [
         "ttttttttttt",
         "ttttttttttt",
-		"t..tt.ttttt",
-        "t._t..ttt_t",
+		"ttttt.ttttt",
+        "t..t..ttt_t",
 		"t.P.B.*..bt",
-        "t_tt._...*t",
+        "t..t._...*t",
 		"ttttttt..tt",
         "ttttttttttt",
     ];
