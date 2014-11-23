@@ -2,6 +2,10 @@ package game;
 
 import flixel.FlxSprite;
 import flixel.text.FlxText;
+import flixel.FlxG;
+import flixel.input.touch.FlxTouch;
+import flixel.util.FlxPoint;
+import game.tiles.FlagSprite;
 
 class Tile extends FlxSprite
 {
@@ -15,6 +19,8 @@ class Tile extends FlxSprite
     private var grassNumber:FlxSprite;
     private var overlayNumber:FlxSprite;
 
+	private var flag : FlagSprite;
+
 	public function new(X:Float, Y:Float, name:String)
 	{
 		super (X, Y);
@@ -24,7 +30,7 @@ class Tile extends FlxSprite
 		grassNumber.blend = flash.display.BlendMode.OVERLAY;
 		grassNumber.alpha = 0.7;
 
-		overlayNumber = new FlxSprite(X,Y);
+		overlayNumber = new FlxSprite(X, Y);
 	}
 
 	public function setExplored(explored:Bool):Void
@@ -32,7 +38,7 @@ class Tile extends FlxSprite
 
 		if (showNumber && this.explored != explored && explored){
 			grassNumber.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
-			overlayNumber.loadGraphic( "assets/images/tiles/black/Grass_Block_"+number+".png", true, 101, 171);
+			overlayNumber.loadGraphic( "assets/images/tiles/Grass_Block_"+number+".png", true, 101, 171);
 
 			Game.instance.topLayer.add(overlayNumber);
 			overlayNumber.scale.x = overlayNumber.scale.y = 2;
@@ -52,4 +58,34 @@ class Tile extends FlxSprite
 		}
 
 	}
+
+	override public function update() : Void
+	{
+		super.update();
+
+
+	}
+
+	public function canPlantFlag() : Bool
+	{
+		return false;
+	}
+
+	public function plantFlag() : Void
+	{
+		if (canPlantFlag())
+		{
+			if (flag == null)
+			{
+				flag = new FlagSprite(x+width / 2+3,y);
+				Game.instance.playerLayer.add(flag);
+			}
+			else
+			{
+				flag.visible = ! flag.visible;
+			}
+		}
+
+	}
+
 }

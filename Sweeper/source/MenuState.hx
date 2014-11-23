@@ -24,11 +24,12 @@ class MenuState extends FlxState
 	{
 		super.create();
 
-        _btnPlay = new FlxButton(0,0, "Play", clickPlay);
-        _btnPlay.setSize( 100 , 40 );
-        _btnPlay.screenCenter();
-        add(_btnPlay);
-
+        //FlxG.sound.playMusic("assets/music/Bird-Battle.mp3", 1, true);
+        #if android
+        	FlxG.sound.playMusic("assets/music/Nature-Mood3.ogg", 1, true);
+        #else
+        	FlxG.sound.playMusic("assets/music/Nature-Mood3.mp3", 1, true);
+        #end
         FlxG.switchState(new Game(0));
 	}
 

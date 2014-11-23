@@ -22,4 +22,9 @@ class Grass extends Tile
 		super.setExplored(explored);
 
 	}
+	
+	override public function canPlantFlag() : Bool
+	{
+		return true;
+	}
 }
