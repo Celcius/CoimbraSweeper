@@ -14,8 +14,10 @@ class Level3 extends Level
 		"tvSP.B.v*..t",
 		"tvS...**__.t",
 		"t>>_>>>^._*t",
-		"tb.._.....St",
-        "tttttttttttt",
+		"tb.._*....St",
+        "ttt__*....tt",
+		"ttt....*.*tt",
+		"tttttttttttt",
     ];
 
     override public function getGrid():Array<String>

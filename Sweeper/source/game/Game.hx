@@ -35,7 +35,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3() ];
+	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3(),new Level4() ];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
@@ -498,6 +498,9 @@ public function killPlayerMine():Void
 		if (tile.className == "grass" || tile.className == "terrain")
 		{
 			tile.setExplored(true);
+			
+			if (tile.number > 0)
+				return;
 
 			// top
 			var top:Tile = getTile(tileX, tileY - 1);
