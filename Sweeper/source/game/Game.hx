@@ -78,7 +78,7 @@ class Game extends FlxState {
 	{
 	    instance = this;
 		Reg.game = this;
-		
+
 		for ( member in members)
 			remove(member);
 
@@ -303,7 +303,7 @@ class Game extends FlxState {
 		if (_gameOver)
 		{
 #if android
-		
+
 		for (touch in FlxG.touches.list)
 		{
 		if (touch.justPressed)
@@ -318,14 +318,14 @@ class Game extends FlxState {
 		#if android
 			}
 		#end
-			
+
 		}
 
 		if (_levelFinished)
 		{
-			
+
 			#if android
-		
+
 		for (touch in FlxG.touches.list)
 		{
 		if (touch.justPressed)
@@ -344,7 +344,7 @@ class Game extends FlxState {
 
 		}
 
-        FlxG.collide(player, playerColliderGroup);
+        //FlxG.collide(player, playerColliderGroup);
 
         super.update();
 
@@ -409,7 +409,8 @@ public function killPlayerMine():Void
 		if (!_gameOver)
 		{
 			var player : Player = Reg.player;
-			mineExplosion (player.x+ player.width/2 , player.y+ player.height/2 , 1);
+
+			mineExplosion(player.x+ player.width/2 , player.y+ player.height/2, 2);
 
 			#if android
 				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press the forest to hire a new Ranger...");
@@ -446,15 +447,17 @@ public function killPlayerMine():Void
 		{
 			var bear : Bear = Reg.bear;
 			bloodExplosion(bear.x + bear.width / 2 , bear.y + bear.height / 2 , 1);
-			remove(Reg.bear);
-			Reg.bear.destroy();
-			Reg.bear = null;
+
 					#if android
 				gameOver("You awoke the Bear!\nFor the last time...", "Press the forest to find a new Bear...");
 			#else
 				gameOver("You awoke the Bear!\nFor the last time...", "Press R to find a new Bear...");
 			#end
-			
+			remove(Reg.bear);
+
+            Reg.bear.destroy();
+            Reg.bear = null;
+
 		}
 	}
 
@@ -468,6 +471,7 @@ public function killPlayerMine():Void
 			remove(Reg.bear);
 			Reg.bear.destroy();
 			Reg.bear = null;
+
 		#if android
 			endScreenLabel(text, "You put the bear to sleep!\nFor now...", "Press the forest...");
 		#else

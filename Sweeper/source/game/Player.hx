@@ -17,11 +17,6 @@ class Player extends FlxSprite
 
 	private var anchor:FlxSprite;
 
-	public var collider:FlxSprite;
-	public var colliderOffset:FlxPoint;
-
-	private var oppositeAnchor:FlxPoint;
-
 	var isStopped : Bool = false;
 	var canMove:Bool = true;
 
@@ -33,17 +28,14 @@ class Player extends FlxSprite
 	{
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
 		loadGraphic("assets/images/ranger_sheet.png", false, SPRITE_WIDTH, SPRITE_HEIGHT);
-				
+
 		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9,10,11,12], 5, true);
 		this.animation.play("iddle");
 		anchor = new FlxSprite(anchorX, anchorY);
 		anchor.makeGraphic(2,2, 0xFFFF0000);
-		anchor.makeGraphic(2, 2, 0xFFFF0000);
 
 
 		Reg.player = this;
-
-		oppositeAnchor = new FlxPoint();
 	}
 
 	override public function update():Void
@@ -123,7 +115,7 @@ class Player extends FlxSprite
 
 		super.update();
 
-		if (Game.instance.isBomb( Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY))))
+		if (Game.instance.isBomb( currentTile) )
 		{
 			Game.instance.killPlayerMine();
 		}
@@ -168,7 +160,7 @@ class Player extends FlxSprite
 	override public function draw():Void
 	{
 		super.draw();
-		anchor.draw();
+		//anchor.draw();
 	}
 
 	public var anchorX(get, never):Float;
