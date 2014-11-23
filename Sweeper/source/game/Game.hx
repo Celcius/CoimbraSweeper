@@ -375,10 +375,10 @@ class Game extends FlxState {
             obj2Offset = 50;
         }
 
-        if (Std.is(Obj1, FlagSprite)){
+        if (Std.is(Obj1, FlagSprite) && Std.is(Obj2, Bear)){
             obj1Offset = -80;
         }
-        if (Std.is(Obj2, FlagSprite)){
+        if (Std.is(Obj2, FlagSprite) && Std.is(Obj1, Bear)){
             obj2Offset = -80;
         }
 
