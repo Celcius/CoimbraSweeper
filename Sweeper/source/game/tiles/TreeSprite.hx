@@ -7,9 +7,9 @@ class TreeSprite extends FlxSprite
 {
 	private var bombSprite:FlxSprite;
 
-	public function new (X:Float , Y:Float)
+	public function new (X:Float , Y:Float, spriteAsset:String)
 	{
 		super(X,Y);
-		loadGraphic( "assets/images/tiles/Tree_Tall.png", true, 101, 171);
+		loadGraphic( "assets/images/tiles/"+spriteAsset, true, 101, 171);
 	}
 }
