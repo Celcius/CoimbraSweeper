@@ -116,22 +116,23 @@ class Player extends FlxSprite
 			anchor.y = anchorY;
 		}
 
-		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
-		if (currentTile != null){
-			currentTile.setExplored(true);
-		}
-
 		super.update();
 
-		if (Game.instance.isBomb( Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY))))
-		{
-			Game.instance.killPlayerMine();
-		}
 	}
 
 	public function setCanMove()
 	{
 		this.canMove = true;
+		
+		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
+		
+		if (currentTile != null)
+		{
+			Game.instance.discover(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY));
+			
+			if (Game.instance.isBomb(currentTile))
+				Game.instance.killPlayerMine();
+		}
 	}
 
 	private function shouldMove(horMove:Float, verMove:Float):Bool
