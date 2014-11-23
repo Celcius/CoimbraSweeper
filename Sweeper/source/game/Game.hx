@@ -129,6 +129,7 @@ class Game extends FlxState {
 
 		drawGrid(_level.getGrid());
         populateNumberGrid();
+        discover(getGridX(player.anchorX), getGridY(player.anchorY));
 
 		_levelFinished = false;
 
@@ -171,6 +172,7 @@ class Game extends FlxState {
             }
             gridW = row.length;
         }
+
     }
 
     private function populateNumberGrid():Void
@@ -498,7 +500,7 @@ public function killPlayerMine():Void
 		if (tile.className == "grass" || tile.className == "terrain")
 		{
 			tile.setExplored(true);
-			
+
 			if (tile.number > 0)
 				return;
 
