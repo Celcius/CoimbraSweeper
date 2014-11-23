@@ -62,8 +62,6 @@ class Tile extends FlxSprite
 	override public function update() : Void
 	{
 		super.update();
-
-
 	}
 
 	public function canPlantFlag() : Bool
@@ -85,7 +83,7 @@ class Tile extends FlxSprite
 			{
 				flag.visible = ! flag.visible;
 				this.blocking = flag.visible;
-				
+
 			}
 		}
 
