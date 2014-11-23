@@ -47,7 +47,7 @@ class Game extends FlxState {
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
 
-	private var _levels : Array<Level> = [new Level8(), new Level0A(), new Level0B(), new Level0C(), new Level1(), new Level2(), new Level3(), new Level7(), new Level4(), new Level5(), new Level6()];
+	private var _levels : Array<Level> = [new Level0A(), new Level0B(), new Level0C(), new Level1(), new Level2(), new Level3(), new Level7(), new Level8(), new Level4(), new Level5(), new Level6()];
 
 	private var _levelIndex : Int = 0;
 
