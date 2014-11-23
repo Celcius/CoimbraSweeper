@@ -502,6 +502,9 @@ public function killPlayerMine():Void
 		if (tile.className == "grass" || tile.className == "terrain")
 		{
 			tile.setExplored(true);
+			
+			if (tile.number > 0)
+				return;
 
 			// top
 			var top:Tile = getTile(tileX, tileY - 1);
