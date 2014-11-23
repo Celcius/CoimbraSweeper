@@ -18,6 +18,8 @@ import game.levels.Level2;
 import game.levels.Level3;
 import game.levels.Level4;
 import game.levels.Level5;
+import game.levels.Level6;
+import game.levels.Level7;
 import game.tiles.*;
 import flixel.effects.particles.FlxParticle;
 import flixel.effects.particles.FlxEmitter;
@@ -37,7 +39,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3(),new Level4(), new Level5()];
+	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3(),new Level4(), new Level5(), new Level6(), new Level7()];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
