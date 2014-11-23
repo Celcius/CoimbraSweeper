@@ -8,7 +8,7 @@ class Level0C extends Level
     }
 
 	public var _grid:Array<String> = [
-        "TTTTTTTTTTT",
+        "TTTTSwSTTTT",
         "TtP.BvttttT",
 		"Tt..tvttttT",
         "Tt.t..btttT",
