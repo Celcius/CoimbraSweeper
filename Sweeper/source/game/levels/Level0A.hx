@@ -14,7 +14,7 @@ class Level0A extends Level
         "TttttttttbT",
 		"T.P.B.....T",
         "Tttttttt..T",
-		"TtttttttttT",
+		"Tt.tttttttT",
         "TTTTTTTTTTT",
     ];
 
