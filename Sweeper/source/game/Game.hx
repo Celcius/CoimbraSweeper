@@ -21,6 +21,7 @@ import game.levels.Level5;
 import game.levels.Level6;
 import game.levels.Level7;
 import game.tiles.*;
+import game.levels.Level0B;
 import flixel.effects.particles.FlxParticle;
 import flixel.effects.particles.FlxEmitter;
 import haxe.macro.Expr.Var;
@@ -39,7 +40,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3(),new Level4(), new Level5(), new Level6(), new Level7()];
+	private var _levels : Array<Level> = [new Level0B(), new Level1(), new Level2(),new Level3(),new Level4(), new Level5(), new Level6(), new Level7()];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
@@ -506,8 +507,10 @@ public function killPlayerMine():Void
 	{
 		if (!_gameOver)
 		{
+			
 			var bear : Bear = Reg.bear;
-			bloodExplosion(bear.x + bear.width / 2 , bear.y + bear.height / 2 , 1);
+			
+			mineExplosion(bear.anchorX , bear.anchorY -17.5 , 1);
 
 					#if android
 				gameOver("You awoke the Bear!\nFor the last time...", "Press the forest to find a new Bear...");
@@ -606,6 +609,8 @@ public function killPlayerMine():Void
 			var xp : Explosion =  new Explosion(x, y, 0);
 			xp.createBloodParticles();
 			add(xp);
+			xp.setAlpha(1, 0.9, 0, 0);
+			xp.setScale(1, 0.7, 0, 0);
 			xp.start(true,Explosion.TIME_SPAN);
 	}
 
@@ -614,6 +619,8 @@ public function killPlayerMine():Void
 			var xp : Explosion =  new Explosion(x, y, 0);
 			xp.createMineParticles();
 			add(xp);
+			xp.setAlpha(1, 0.9, 0, 0);
+			xp.setScale(1, 0.7, 0, 0);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
 
@@ -623,6 +630,8 @@ public function killPlayerMine():Void
 			var xp : Explosion =  new Explosion(x, y, 0);
 			xp.createWaterParticles();
 			add(xp);
+			xp.setAlpha(1, 0.9, 0, 0);
+			xp.setScale(1, 0.7, 0, 0);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
 

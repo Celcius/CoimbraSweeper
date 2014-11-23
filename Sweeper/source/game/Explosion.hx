@@ -9,7 +9,7 @@ import flixel.util.FlxRandom;
  */
 class Explosion extends FlxEmitter
 {
-	public static var TIME_SPAN:Float = 2;
+	public static var TIME_SPAN:Float = 1.5;
 	public static var MINE_XP:Int = 0;
 	public static var BLOOD_XP:Int = 1;
 	public static var WATER_XP:Int = 2;
@@ -27,7 +27,7 @@ class Explosion extends FlxEmitter
 	
 	public function createMineParticles() : Void
 	{
-				for(i in  0 ... 100)
+				for(i in  0 ... 20)
 		{
 			var particle:FlxParticle = new FlxParticle();
 			var color :Int;
@@ -39,7 +39,7 @@ class Explosion extends FlxEmitter
 			else
 				color = 0x99ffff00;
 				
-			particle.makeGraphic(3, 3,color);
+			particle.makeGraphic(15,15,color);
 			particle.exists = false;
 			particle.useFading = true;
 			add(particle);
@@ -50,7 +50,7 @@ class Explosion extends FlxEmitter
 	
 		public function createWaterParticles() : Void
 	{
-				for(i in  0 ... 100)
+				for(i in  0 ... 20)
 		{
 			var particle:FlxParticle = new FlxParticle();
 			var color :Int;
@@ -62,7 +62,7 @@ class Explosion extends FlxEmitter
 			else
 				color = 0x99F0F5FA;
 				
-			particle.makeGraphic(3, 3,color);
+			particle.makeGraphic(15,15,color);
 			particle.exists = false;
 			particle.useFading = true;
 			add(particle);
@@ -74,7 +74,7 @@ class Explosion extends FlxEmitter
 	public function createBloodParticles() : Void
 	{
 		
-		for(i in  0 ... 100)
+		for(i in  0 ... 20)
 		{
 			var particle:FlxParticle = new FlxParticle();
 			var color :Int;
@@ -86,9 +86,10 @@ class Explosion extends FlxEmitter
 			else
 				color = 0x99ff3310;
 				
-			particle.makeGraphic(3, 3,color);
+			particle.makeGraphic(15, 15,color);
 			particle.exists = false;
 			particle.useFading = true;
+
 			add(particle);
 				
 			}

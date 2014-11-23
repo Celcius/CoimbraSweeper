@@ -75,7 +75,16 @@ class Bear extends FlxSprite
 
 	public function setCanMove()
 	{
+		currentTile = Game.instance.getTileFromWorld(anchorX, anchorY);
+		
+		
+		if (Game.instance.isBomb( currentTile ))
+		{
+			Game.instance.killBear();
+		}
+		
 		this.canMove = true;
+		
 	}
 
 	public function setStopped( stopped : Bool)
@@ -91,11 +100,8 @@ class Bear extends FlxSprite
 		super.update();
 
 		currentTile = Game.instance.getTileFromWorld(anchorX, anchorY);
-		if (Game.instance.isBomb( currentTile ))
-		{
-			Game.instance.killBear();
-		}
-		else if (Game.instance.isBed(currentTile))
+		
+		if (Game.instance.isBed(currentTile))
 		{
 			var bed:Bed = cast (currentTile, Bed);
 			bed.sleep();
