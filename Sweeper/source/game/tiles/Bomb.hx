@@ -21,4 +21,9 @@ class Bomb extends Tile
 	{
 		super.draw();
 	}
+	
+	override public function canPlantFlag() : Bool
+	{
+		return true;
+	}
 }

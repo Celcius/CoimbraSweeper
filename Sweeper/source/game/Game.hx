@@ -22,6 +22,7 @@ import game.tiles.*;
 import flixel.effects.particles.FlxParticle;
 import flixel.effects.particles.FlxEmitter;
 import haxe.macro.Expr.Var;
+import flixel.input.touch.FlxTouch;
 
 class Game extends FlxState {
 
@@ -297,7 +298,6 @@ class Game extends FlxState {
 	 */
     override public function update():Void
     {
-
 		if (_levelIndex >= _levels.length)
 		{
 			loadLevel(_levelIndex);
@@ -350,6 +350,10 @@ class Game extends FlxState {
 		#end
 
 		}
+		
+		
+
+		checkFlagInput();
 
         //FlxG.collide(player, playerColliderGroup);
 
@@ -404,6 +408,52 @@ class Game extends FlxState {
 			Reg.player = null;
 		}
 	}
+	
+function checkFlagInput() : Void
+{
+#if android
+	if (FlxG.touches.list.length > 0)
+	{
+#else
+	if (FlxG.mouse.justReleased)
+	{
+#end
+		
+		for ( x in 0 ... _grid.length)
+			for (y in 0 ... _grid[x].length)
+			{
+				var x2 : Int = _grid.length - x - 1;
+				var y2 : Int = _grid[x].length - y - 1;
+
+				var tile:Tile = _grid[x2][y2];
+				if (!tile.canPlantFlag())
+					continue;
+			
+
+					
+	#if android
+			for (touch in FlxG.touches.list)
+			{
+				var touch:FlxTouch = FlxG.touches.getFirst();
+				if (touch.justReleased && tile.pixelsOverlapPoint(new FlxPoint(touch.x, touch.y)))
+				{
+					tile.plantFlag();
+					return;
+				}
+			}
+	#else
+				
+					
+			if (tile.pixelsOverlapPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y)))
+			{
+				tile.plantFlag();
+				return;
+			}
+	#end
+		}
+	}
+	
+}
 
 public function killPlayerMine():Void
 	{
