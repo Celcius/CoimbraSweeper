@@ -78,7 +78,7 @@ class Game extends FlxState {
 	{
 	    instance = this;
 		Reg.game = this;
-		
+
 		for ( member in members)
 			remove(member);
 
@@ -118,6 +118,8 @@ class Game extends FlxState {
 		GMAP.set('<', WaterLeft);
 		GMAP.set('v', WaterDown);
 		GMAP.set('^', WaterUp);
+		GMAP.set('w', Waterfall);
+		GMAP.set('S', StoneWall);
 
 
         _gridGroup = new FlxSpriteGroup();
@@ -126,7 +128,6 @@ class Game extends FlxState {
 		drawGrid(_level.getGrid());
         populateNumberGrid();
 
-		createRageBar();
 		_levelFinished = false;
 
 		_gameOver = false;
@@ -299,20 +300,52 @@ class Game extends FlxState {
 
         //trace("Player X="+getGridX(player.anchorX) + " Y="+getGridY(player.anchorY));
 
-		if (_gameOver && FlxG.keys.anyPressed(["R"]))
+
+		if (_gameOver)
 		{
+#if android
+
+		for (touch in FlxG.touches.list)
+		{
+		if (touch.justPressed)
+		{
+#else
+		if ( FlxG.keys.anyPressed(["R"]))
+		{
+#end
 			loadLevel(_levelIndex);
 			return;
 		}
+		#if android
+			}
+		#end
 
-		if (_levelFinished && FlxG.keys.anyPressed(["SPACE"]))
+		}
+
+		if (_levelFinished)
 		{
+
+			#if android
+
+		for (touch in FlxG.touches.list)
+		{
+		if (touch.justPressed)
+		{
+#else
+		if ( FlxG.keys.anyPressed(["SPACE"]))
+		{
+#end
 			_levelIndex++;
 				loadLevel(_levelIndex);
 			return;
 		}
+		#if android
+			}
+		#end
 
-        FlxG.collide(player, playerColliderGroup);
+		}
+
+        //FlxG.collide(player, playerColliderGroup);
 
         super.update();
 
@@ -335,12 +368,6 @@ class Game extends FlxState {
 
 }
 
-	private function createRageBar():Void
-	{
-		Reg.rageBar = new RageBar();
-		add(Reg.rageBar);
-	}
-
 	private function createBear(X:Int, Y:Int):Void
 	{
 		Reg.bear = new Bear(getWorldX(X), getWorldX(Y));
@@ -358,20 +385,54 @@ class Game extends FlxState {
 		if (!_gameOver)
 		{
 			var player : Player = Reg.player;
-			bloodExplosion(player.x+ player.width/2 , player.y+ player.height/2 , 2);
+			bloodExplosion(player.x+ player.width/2 , player.y+ player.height/2 , 1);
+
+			#if android
+				gameOver("You awoke the Bear!\nHis stomach feels warm...", "Press the forest to hire a new Ranger...");
+			#else
+				gameOver("You awoke the Bear!\nHis stomach feels warm...", "Press R to hire a new Ranger...");
+			#end
+			
 			remove(Reg.player);
-			gameOver("You woke the Bear!\nHis stomach feels warm...");
+			Reg.player.destroy();
+			Reg.player = null;
 		}
 	}
-
-	public function killPlayerMine():Void
+	
+public function killPlayerMine():Void
 	{
 		if (!_gameOver)
 		{
 			var player : Player = Reg.player;
+
 			mineExplosion(player.x+ player.width/2 , player.y+ player.height/2, 2);
+
+			#if android
+				gameOver("You became Bear food!\nThe delicious smell awoke it...", "Press the forest to hire a new Ranger...");
+			#else
+				gameOver("You became Bear food!\nThe delicious smell awoke it...", "Press R to hire a new Ranger...");
+			#end
 			remove(Reg.player);
-			gameOver("You woke the Bear!\nWhen your torso flew into him...");
+			Reg.player.destroy();
+			Reg.player = null;
+		}
+	}
+
+	public function killPlayerDrown():Void
+	{
+		if (!_gameOver)
+		{
+			var player : Player = Reg.player;
+			waterExplosion(player.x+ player.width/2 , player.y+ player.height/2, 1);
+
+			#if android
+				gameOver("Don't you know Rangers can't swim...", "Press the forest to hire a new Ranger...");
+			#else
+				gameOver("Don't you know Rangers can't swim...", "Press R to hire a new Ranger...");
+			#end
+			remove(Reg.player);
+			Reg.player.destroy();
+			Reg.player = null;
 		}
 	}
 
@@ -380,9 +441,18 @@ class Game extends FlxState {
 		if (!_gameOver)
 		{
 			var bear : Bear = Reg.bear;
-			bloodExplosion(bear.x + bear.width / 2 , bear.y + bear.height / 2 , 2);
+			bloodExplosion(bear.x + bear.width / 2 , bear.y + bear.height / 2 , 1);
+
+					#if android
+				gameOver("You awoke the Bear!\nFor the last time...", "Press the forest to find a new Bear...");
+			#else
+				gameOver("You awoke the Bear!\nFor the last time...", "Press R to find a new Bear...");
+			#end
 			remove(Reg.bear);
-			gameOver("You woke the Bear!\nFor the last time...");
+
+            Reg.bear.destroy();
+            Reg.bear = null;
+
 		}
 	}
 
@@ -396,18 +466,23 @@ class Game extends FlxState {
 			remove(Reg.bear);
 			Reg.bear.destroy();
 			Reg.bear = null;
-			
+
+		#if android
+			endScreenLabel(text, "You put the bear to sleep!\nFor now...", "Press the forest...");
+		#else
 			endScreenLabel("You put the bear to sleep!\nFor now...", "Press Space...");
+		#end
 			_levelFinished = true;
 		}
 	}
 
-	function gameOver(text : String) : Void
+	function gameOver(text : String, text2 : String) : Void
 	{
 		_gameOver = true;
 		Reg.player.setStopped(true);
 		Reg.bear.setStopped(true);
-		endScreenLabel(text, "Press R to retry...");
+
+			endScreenLabel(text, text2);
 	}
 	
 	public function discover(tileX:Int, tileY:Int)
@@ -492,4 +567,15 @@ class Game extends FlxState {
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
+	
+	
+	public function waterExplosion(x:Float,y:Float,depth:Int) : Void
+	{
+			var xp : Explosion =  new Explosion(x, y, depth);
+			xp.createWaterParticles();
+			add(xp);
+			xp.start(true, Explosion.TIME_SPAN);
+	}
+	
+	
 }

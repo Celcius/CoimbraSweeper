@@ -13,63 +13,61 @@ import motion.Actuate;
  */
 class Player extends FlxSprite
 {
-	private static var ANIMATION_DURATION = 0.25;
+	private static var ANIMATION_DURATION = 0.20;
 
 	private var anchor:FlxSprite;
 
-	public var collider:FlxSprite;
-	public var colliderOffset:FlxPoint;
-
-	private var oppositeAnchor:FlxPoint;
-
 	var isStopped : Bool = false;
 	var canMove:Bool = true;
+	var _prevPosition : FlxPoint;
 
 	private var SPRITE_WIDTH = 92;
 	private var SPRITE_HEIGHT = 99;
+
+	var horDiff:Float = Game.BLOCK_WIDTH;
+	var verDiff:Float = Game.BLOCK_HEIGHT;
+
+	var horMove:Float = 0.0;
+	var verMove:Float = 0.0;
 
 
 	public function new(X:Float, Y:Float)
 	{
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y + 25);
 		loadGraphic("assets/images/ranger_sheet.png", false, SPRITE_WIDTH, SPRITE_HEIGHT);
-				
+
 		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9,10,11,12], 5, true);
 		this.animation.play("iddle");
 		anchor = new FlxSprite(anchorX, anchorY);
 		anchor.makeGraphic(2,2, 0xFFFF0000);
-		anchor.makeGraphic(2, 2, 0xFFFF0000);
 
 
 		Reg.player = this;
-
-		oppositeAnchor = new FlxPoint();
 	}
 
 	override public function update():Void
 	{
+
 		super.update();
 
 		if (isStopped)
 			return;
 
-		var horDiff:Float = Game.BLOCK_WIDTH;
-		var verDiff:Float = Game.BLOCK_HEIGHT;
 
-		var horMove:Float = 0.0;
-		var verMove:Float = 0.0;
+		horMove = 0.0;
+		verMove = 0.0;
 
 		if (canMove)
 		{
 			for (swipe in FlxG.swipes)
 			{
 				var distance:Float = swipe.distance;
-				
+
 				if (distance < 50)
 					continue;
-				
+
 				var angle:Float = swipe.angle;
-				
+
 				if (angle > -30 && angle < 30)
 					verMove = -verDiff;
 				else if (angle > 150 || angle < -150) // edge case
@@ -100,7 +98,7 @@ class Player extends FlxSprite
 					verMove = verDiff;
 				}
 			}
-			
+
 
 			// check if should move - create action to move if yes
 			if ( this.shouldMove(horMove, verMove) )
@@ -108,15 +106,13 @@ class Player extends FlxSprite
 				canMove = false;
 				var xPath = this.x + horMove;
 				var yPath = this.y + verMove;
-
+				_prevPosition = new FlxPoint(this.x, this.y);
 				Actuate.tween(this, ANIMATION_DURATION, { x:xPath, y:yPath } ).onComplete(this.setCanMove);
 			}
 
 			anchor.x = anchorX;
 			anchor.y = anchorY;
 		}
-
-		super.update();
 
 	}
 
@@ -132,6 +128,12 @@ class Player extends FlxSprite
 			
 			if (Game.instance.isBomb(currentTile))
 				Game.instance.killPlayerMine();
+				
+			else if (currentTile.className == "water")
+			{
+				Actuate.tween(this, ANIMATION_DURATION, { x:_prevPosition.x, y:_prevPosition.y } ).onComplete(this.setCanMove);
+				Game.instance.waterExplosion(x+ width/2 , y+ height/2, 1);
+			}
 		}
 	}
 
@@ -163,7 +165,7 @@ class Player extends FlxSprite
 	override public function draw():Void
 	{
 		super.draw();
-		anchor.draw();
+		//anchor.draw();
 	}
 
 	public var anchorX(get, never):Float;
@@ -180,8 +182,6 @@ class Player extends FlxSprite
 	public function setStopped(stopped : Bool):Void
 	{
 		isStopped = stopped;
-		if(stopped)
-			this.velocity  = new FlxPoint(0, 0);
 	}
 
 }
