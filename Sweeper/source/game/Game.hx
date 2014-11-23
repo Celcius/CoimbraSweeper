@@ -1,4 +1,4 @@
-package game;
+package game ;
 
 import flixel.util.FlxSort;
 import flixel.FlxG;
@@ -15,6 +15,8 @@ import flixel.util.FlxPoint;
 import game.levels.Level;
 import game.levels.Level1;
 import game.levels.Level2;
+import game.levels.Level3;
+import game.levels.Level4;
 import game.tiles.*;
 import flixel.effects.particles.FlxParticle;
 import flixel.effects.particles.FlxEmitter;
@@ -33,7 +35,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [new Level1(), new Level2() ];
+	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3() ];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
@@ -103,11 +105,11 @@ class Game extends FlxState {
         playerColliderGroup = new FlxGroup();
 
         GMAP = new Map<String, Dynamic>();
-        GMAP.set('#', Grass);
+        GMAP.set('.', Grass);
         GMAP.set('_', Terrain);
         GMAP.set('*', Bomb);
         GMAP.set('t', Tree);
-        GMAP.set('.', Empty);
+        GMAP.set(' ', Empty);
 		GMAP.set('b', Bed);
 
 		GMAP.set('P', Grass); // player
@@ -154,6 +156,7 @@ class Game extends FlxState {
             {
 				var GMAPkey = row.charAt(j);
                 var classType = GMAP.get(GMAPkey);
+				trace(GMAPkey);
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
@@ -412,9 +415,9 @@ public function killPlayerMine():Void
 			mineExplosion(player.x+ player.width/2 , player.y+ player.height/2, 2);
 
 			#if android
-				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press the forest to hire a new Ranger...");
+				gameOver("You became Bear food!\nThe delicious smell awoke it...", "Press the forest to hire a new Ranger...");
 			#else
-				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press R to hire a new Ranger...");
+				gameOver("You became Bear food!\nThe delicious smell awoke it...", "Press R to hire a new Ranger...");
 			#end
 			remove(Reg.player);
 			Reg.player.destroy();
@@ -488,6 +491,47 @@ public function killPlayerMine():Void
 
 			endScreenLabel(text, text2);
 	}
+	
+	public function discover(tileX:Int, tileY:Int)
+	{
+		var tile:Tile = getTile(tileX, tileY);
+		
+		if (tile == null || tile.explored == true)
+			return;
+			
+		if (tile.className == "grass" || tile.className == "terrain")
+		{
+			tile.setExplored(true);
+				
+			// top
+			var top:Tile = getTile(tileX, tileY - 1);
+			if (!top.explored)
+			{
+				discover(tileX, tileY - 1);
+			}
+			
+			// left
+			var left:Tile = getTile(tileX - 1, tileY);
+			if (!left.explored)
+			{
+				discover(tileX - 1, tileY);
+			}	
+			
+			// right
+			var right:Tile = getTile(tileX + 1, tileY);
+			if (!right.explored)
+			{
+				discover(tileX + 1, tileY);
+			}	
+			
+			// bot
+			var bot:Tile = getTile(tileX, tileY + 1);
+			if (!bot.explored)
+			{
+				discover(tileX, tileY + 1);
+			}
+		}
+	}
 
 	function endScreenLabel(text1:String, text2:String):Void
 	{
@@ -517,7 +561,7 @@ public function killPlayerMine():Void
 	}
 	public function bloodExplosion(x:Float,y:Float,depth:Int) : Void
 	{
-			var xp : Explosion =  new Explosion(x, y, depth);
+			var xp : Explosion =  new Explosion(x, y, 0);
 			xp.createBloodParticles();
 			add(xp);
 			xp.start(true,Explosion.TIME_SPAN);
@@ -525,7 +569,7 @@ public function killPlayerMine():Void
 
 	public function mineExplosion(x:Float,y:Float,depth:Int) : Void
 	{
-			var xp : Explosion =  new Explosion(x, y, depth);
+			var xp : Explosion =  new Explosion(x, y, 0);
 			xp.createMineParticles();
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
@@ -534,7 +578,7 @@ public function killPlayerMine():Void
 
 	public function waterExplosion(x:Float,y:Float,depth:Int) : Void
 	{
-			var xp : Explosion =  new Explosion(x, y, depth);
+			var xp : Explosion =  new Explosion(x, y, 0);
 			xp.createWaterParticles();
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);

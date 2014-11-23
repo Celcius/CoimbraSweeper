@@ -2,7 +2,6 @@ package game.tiles;
 
 import flixel.FlxSprite;
 import game.Tile;
-import game.Game;
 
 class Tree extends Tile
 {
