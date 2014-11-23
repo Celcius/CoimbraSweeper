@@ -16,6 +16,7 @@ class Level2 extends Level
         "t..*..*..bt",
 		"tt._t...t_t",
         "ttttttttttt",
+
     ];
 	/*
 	 *         "t#t*ttttttt",

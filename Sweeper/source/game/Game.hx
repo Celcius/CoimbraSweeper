@@ -35,7 +35,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3() ];
+	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3(),new Level4() ];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
@@ -160,11 +160,7 @@ class Game extends FlxState {
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
-                if (Std.is(tile, StoneWall)){
-                	playerLayer.add(tile);
-                } else {
-                	groundLayer.add(tile);
-                }
+                groundLayer.add(tile);
 
 				if (GMAPkey == 'P')
 					createPlayer(j, i); // X=j, Y=i
