@@ -5,11 +5,19 @@ import game.Tile;
 
 class StoneWall extends Tile
 {
+
+	private var stoneWall:StoneWallSprite;
+
 	public function new (X:Float , Y:Float)
 	{
-		super(X,Y, "grass");
-		loadGraphic( "assets/images/tiles/Stone_Block_Tall.png", true, 101, 171);
+		super(X,Y, "stonewall");
+		loadGraphic( "assets/images/tiles/Stone_Block.png", true, 101, 171);
 		setExplored(false);
+		this.blocking = true;
+
+		stoneWall = new StoneWallSprite(X,Y-40);
+		Game.instance.playerLayer.add(stoneWall);
+
 		this.blocking = true;
 	}
 }

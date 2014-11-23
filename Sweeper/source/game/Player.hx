@@ -118,8 +118,6 @@ class Player extends FlxSprite
 
 	public function setCanMove()
 	{
-		this.canMove = true;
-		
 		var currentTile:Tile = Game.instance.getTileFromWorld(anchorX, anchorY);
 		
 		if (currentTile != null)
@@ -132,9 +130,12 @@ class Player extends FlxSprite
 			else if (currentTile.className == "water")
 			{
 				Actuate.tween(this, ANIMATION_DURATION, { x:_prevPosition.x, y:_prevPosition.y } ).onComplete(this.setCanMove);
-				Game.instance.waterExplosion(x+ width/2 , y+ height/2, 1);
+				Game.instance.waterExplosion(x + width / 2 , y + height / 2, 1);
+				return;
 			}
 		}
+		
+		this.canMove = true;
 	}
 
 	private function shouldMove(horMove:Float, verMove:Float):Bool

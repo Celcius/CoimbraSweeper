@@ -156,7 +156,7 @@ class Game extends FlxState {
             {
 				var GMAPkey = row.charAt(j);
                 var classType = GMAP.get(GMAPkey);
-				trace(GMAPkey);
+
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
@@ -395,13 +395,13 @@ class Game extends FlxState {
 			#else
 				gameOver("You awoke the Bear!\nHis stomach feels warm...", "Press R to hire a new Ranger...");
 			#end
-			
+
 			remove(Reg.player);
 			Reg.player.destroy();
 			Reg.player = null;
 		}
 	}
-	
+
 public function killPlayerMine():Void
 	{
 		if (!_gameOver)
@@ -487,39 +487,39 @@ public function killPlayerMine():Void
 
 			endScreenLabel(text, text2);
 	}
-	
+
 	public function discover(tileX:Int, tileY:Int)
 	{
 		var tile:Tile = getTile(tileX, tileY);
-		
+
 		if (tile == null || tile.explored == true)
 			return;
-			
+
 		if (tile.className == "grass" || tile.className == "terrain")
 		{
 			tile.setExplored(true);
-				
+
 			// top
 			var top:Tile = getTile(tileX, tileY - 1);
 			if (!top.explored)
 			{
 				discover(tileX, tileY - 1);
 			}
-			
+
 			// left
 			var left:Tile = getTile(tileX - 1, tileY);
 			if (!left.explored)
 			{
 				discover(tileX - 1, tileY);
-			}	
-			
+			}
+
 			// right
 			var right:Tile = getTile(tileX + 1, tileY);
 			if (!right.explored)
 			{
 				discover(tileX + 1, tileY);
-			}	
-			
+			}
+
 			// bot
 			var bot:Tile = getTile(tileX, tileY + 1);
 			if (!bot.explored)
@@ -570,8 +570,8 @@ public function killPlayerMine():Void
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
-	
-	
+
+
 	public function waterExplosion(x:Float,y:Float,depth:Int) : Void
 	{
 			var xp : Explosion =  new Explosion(x, y, 0);
@@ -579,6 +579,6 @@ public function killPlayerMine():Void
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
-	
-	
+
+
 }
