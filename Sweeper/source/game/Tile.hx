@@ -5,6 +5,8 @@ import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.input.touch.FlxTouch;
 import flixel.util.FlxPoint;
+import game.tiles.FlagSprite;
+
 class Tile extends FlxSprite
 {
 
@@ -17,8 +19,8 @@ class Tile extends FlxSprite
     private var grassNumber:FlxSprite;
     private var overlayNumber:FlxSprite;
 
-	private var flag : FlxSprite;
-	
+	private var flag : FlagSprite;
+
 	public function new(X:Float, Y:Float, name:String)
 	{
 		super (X, Y);
@@ -56,27 +58,26 @@ class Tile extends FlxSprite
 		}
 
 	}
-	
+
 	override public function update() : Void
 	{
 		super.update();
-		
+
 
 	}
-	
+
 	public function canPlantFlag() : Bool
 	{
 		return false;
 	}
-	
+
 	public function plantFlag() : Void
 	{
 		if (canPlantFlag())
 		{
 			if (flag == null)
 			{
-				flag = new FlxSprite(x+width / 2+3,y-30);
-				flag.loadGraphic("assets/images/flag.png");
+				flag = new FlagSprite(x+width / 2+3,y);
 				Game.instance.playerLayer.add(flag);
 			}
 			else
@@ -84,7 +85,7 @@ class Tile extends FlxSprite
 				flag.visible = ! flag.visible;
 			}
 		}
-		
+
 	}
-	
+
 }

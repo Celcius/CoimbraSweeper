@@ -351,8 +351,8 @@ class Game extends FlxState {
 		#end
 
 		}
-		
-		
+
+
 
 		checkFlagInput();
 
@@ -373,6 +373,13 @@ class Game extends FlxState {
         }
         if (Std.is(Obj2, TreeSprite)){
             obj2Offset = 50;
+        }
+
+        if (Std.is(Obj1, FlagSprite)){
+            obj1Offset = -80;
+        }
+        if (Std.is(Obj2, FlagSprite)){
+            obj2Offset = -80;
         }
 
         return FlxSort.byValues(Order, Obj1.y + obj1Offset, Obj2.y + obj2Offset);
@@ -409,7 +416,7 @@ class Game extends FlxState {
 			Reg.player = null;
 		}
 	}
-	
+
 function checkFlagInput() : Void
 {
 #if android
@@ -419,7 +426,7 @@ function checkFlagInput() : Void
 	if (FlxG.mouse.justReleased)
 	{
 #end
-		
+
 		for ( x in 0 ... _grid.length)
 			for (y in 0 ... _grid[x].length)
 			{
@@ -429,9 +436,9 @@ function checkFlagInput() : Void
 				var tile:Tile = _grid[x2][y2];
 				if (!tile.canPlantFlag())
 					continue;
-			
 
-					
+
+
 	#if android
 			for (touch in FlxG.touches.list)
 			{
@@ -443,8 +450,8 @@ function checkFlagInput() : Void
 				}
 			}
 	#else
-				
-					
+
+
 			if (tile.pixelsOverlapPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y)))
 			{
 				tile.plantFlag();
@@ -453,7 +460,7 @@ function checkFlagInput() : Void
 	#end
 		}
 	}
-	
+
 }
 
 public function killPlayerMine():Void
