@@ -128,7 +128,6 @@ class Game extends FlxState {
 		drawGrid(_level.getGrid());
         populateNumberGrid();
 
-		createRageBar();
 		_levelFinished = false;
 
 		_gameOver = false;
@@ -369,12 +368,6 @@ class Game extends FlxState {
 
 }
 
-	private function createRageBar():Void
-	{
-		Reg.rageBar = new RageBar();
-		add(Reg.rageBar);
-	}
-
 	private function createBear(X:Int, Y:Int):Void
 	{
 		Reg.bear = new Bear(getWorldX(X), getWorldX(Y));
@@ -392,30 +385,54 @@ class Game extends FlxState {
 		if (!_gameOver)
 		{
 			var player : Player = Reg.player;
-			bloodExplosion(player.x+ player.width/2 , player.y+ player.height/2 , 2);
-			remove(Reg.player);
+			bloodExplosion(player.x+ player.width/2 , player.y+ player.height/2 , 1);
+
 			#if android
 				gameOver("You awoke the Bear!\nHis stomach feels warm...", "Press the forest to hire a new Ranger...");
 			#else
 				gameOver("You awoke the Bear!\nHis stomach feels warm...", "Press R to hire a new Ranger...");
 			#end
+			
+			remove(Reg.player);
+			Reg.player.destroy();
+			Reg.player = null;
 		}
 	}
-
-	public function killPlayerMine():Void
+	
+public function killPlayerMine():Void
 	{
 		if (!_gameOver)
 		{
 			var player : Player = Reg.player;
+
 			mineExplosion(player.x+ player.width/2 , player.y+ player.height/2, 2);
-			remove(Reg.player);
 
 			#if android
-				gameOver("You awoke the Bear!\nWhen your torso flew into him...", "Press the forest to hire a new Ranger...");
+				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press the forest to hire a new Ranger...");
 			#else
-				gameOver("You awoke the Bear!\nWhen your torso flew into him...", "Press R to hire a new Ranger...");
+				gameOver("You awoke the Bear!\nWhen your body parts flew into him...", "Press R to hire a new Ranger...");
 			#end
+			remove(Reg.player);
+			Reg.player.destroy();
+			Reg.player = null;
+		}
+	}
 
+	public function killPlayerDrown():Void
+	{
+		if (!_gameOver)
+		{
+			var player : Player = Reg.player;
+			waterExplosion(player.x+ player.width/2 , player.y+ player.height/2, 1);
+
+			#if android
+				gameOver("Don't you know Rangers can't swim...", "Press the forest to hire a new Ranger...");
+			#else
+				gameOver("Don't you know Rangers can't swim...", "Press R to hire a new Ranger...");
+			#end
+			remove(Reg.player);
+			Reg.player.destroy();
+			Reg.player = null;
 		}
 	}
 
@@ -424,14 +441,18 @@ class Game extends FlxState {
 		if (!_gameOver)
 		{
 			var bear : Bear = Reg.bear;
-			bloodExplosion(bear.x + bear.width / 2 , bear.y + bear.height / 2 , 2);
-			remove(Reg.bear);
+			bloodExplosion(bear.x + bear.width / 2 , bear.y + bear.height / 2 , 1);
 
 					#if android
 				gameOver("You awoke the Bear!\nFor the last time...", "Press the forest to find a new Bear...");
 			#else
 				gameOver("You awoke the Bear!\nFor the last time...", "Press R to find a new Bear...");
 			#end
+			remove(Reg.bear);
+
+            Reg.bear.destroy();
+            Reg.bear = null;
+
 		}
 	}
 
@@ -505,4 +526,15 @@ class Game extends FlxState {
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
+	
+	
+	public function waterExplosion(x:Float,y:Float,depth:Int) : Void
+	{
+			var xp : Explosion =  new Explosion(x, y, depth);
+			xp.createWaterParticles();
+			add(xp);
+			xp.start(true, Explosion.TIME_SPAN);
+	}
+	
+	
 }

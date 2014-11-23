@@ -52,15 +52,6 @@ class Bear extends FlxSprite
 
 		updateDirection(duration, horMove, verMove);
 
-		Reg.rageBar.incrementRage();
-
-		if (Reg.rageBar.isMaxRage())
-		{
-			Reg.rageBar.shouldUpdate(false);
-
-			 Reg.game.killPlayerBear();
-
-		}
 	}
 
 	public function updateDirection(duration:Float, horMove:Float, verMove:Float)
@@ -142,10 +133,14 @@ class Bear extends FlxSprite
 			return false;
 
 		var player:Player = Reg.player;
-		var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
+		if (player != null)
+		{
+				
+			var bTile:Tile = Game.instance.getTileFromWorld(player.anchorX, player.anchorY);
 
-		if (aTile == bTile)
-			return false;
+			if (aTile == bTile)
+				return false;
+		}
 
 		return true;
 	}
