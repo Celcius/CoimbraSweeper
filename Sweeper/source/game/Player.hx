@@ -4,7 +4,6 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
 
-
 import motion.Actuate;
 
 
@@ -54,23 +53,46 @@ class Player extends FlxSprite
 
 		if (canMove)
 		{
-			// left movement
-			if (FlxG.keys.anyPressed(["A", "LEFT"]))
+			for (swipe in FlxG.swipes)
 			{
-				horMove = -horDiff;
+				var distance:Float = swipe.distance;
+				
+				if (distance < 50)
+					continue;
+				
+				var angle:Float = swipe.angle;
+				
+				if (angle > -30 && angle < 30)
+					verMove = -verDiff;
+				else if (angle > 150 || angle < -150) // edge case
+					verMove = verDiff;
+				else if (angle > -120 && angle < -60)
+					horMove = -horDiff;
+				else if (angle > 60 && angle < 120)
+					horMove = horDiff;
 			}
-			else if (FlxG.keys.anyPressed(["D", "RIGHT"]))
+
+			if (horMove == 0 && verMove == 0)
 			{
-				horMove = horDiff;
+				// left movement
+				if (FlxG.keys.anyPressed(["A", "LEFT"]))
+				{
+					horMove = -horDiff;
+				}
+				else if (FlxG.keys.anyPressed(["D", "RIGHT"]))
+				{
+					horMove = horDiff;
+				}
+				else if (FlxG.keys.anyPressed(["W", "UP"]))
+				{
+					verMove = -verDiff;
+				}
+				else if (FlxG.keys.anyPressed(["S", "DOWN"]))
+				{
+					verMove = verDiff;
+				}
 			}
-			else if (FlxG.keys.anyPressed(["W", "UP"]))
-			{
-				verMove = -verDiff;
-			}
-			else if (FlxG.keys.anyPressed(["S", "DOWN"]))
-			{
-				verMove = verDiff;
-			}
+			
 
 			// check if should move - create action to move if yes
 			if ( this.shouldMove(horMove, verMove) )
@@ -112,24 +134,17 @@ class Player extends FlxSprite
 		var aTile:Tile = Game.instance.getTileFromWorld(this.anchorX + horMove, this.anchorY + verMove);
 
 		if (aTile.blocking)
-		{
-			trace("SELF BLOCK");
 			return false;
-		}
 
 		var bear:Bear = Reg.bear;
 		var bTile:Tile = Game.instance.getTileFromWorld(bear.anchorX, bear.anchorY);
 
 		if (aTile == bTile)
 		{
-			trace("FOUND BEAR");
-
 			var cTile:Tile = Game.instance.getTileFromWorld(bear.anchorX + horMove, bear.anchorY + verMove);
 			if (cTile.blocking)
-			{
-				trace("BEAR BLOCK");
 				return false;
-			}
+
 			bear.redirectBear(ANIMATION_DURATION, horMove, verMove);
 		}
 
