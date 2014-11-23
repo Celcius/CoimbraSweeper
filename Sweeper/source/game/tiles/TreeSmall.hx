@@ -3,7 +3,7 @@ package game.tiles;
 import flixel.FlxSprite;
 import game.Tile;
 
-class Tree extends Tile
+class TreeSmall extends Tile
 {
 	private var treeSprite:TreeSprite;
 
@@ -14,7 +14,7 @@ class Tree extends Tile
 		super(X,Y, "tree");
 		loadGraphic( "assets/images/tiles/Grass_Block.png", true, 101, 171);
 
-		treeSprite = new TreeSprite(X,Y-30, "Tree_Tall.png");
+		treeSprite = new TreeSprite(X,Y-30, "Tree_Short.png");
 		Game.instance.playerLayer.add(treeSprite);
 
 		this.blocking = true;

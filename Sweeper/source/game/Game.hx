@@ -110,7 +110,8 @@ class Game extends FlxState {
         GMAP.set('.', Grass);
         GMAP.set('_', Terrain);
         GMAP.set('*', Bomb);
-        GMAP.set('t', Tree);
+        GMAP.set('t', TreeSmall);
+		GMAP.set('T', Tree);
         GMAP.set(' ', Empty);
 		GMAP.set('b', Bed);
 
@@ -555,33 +556,13 @@ public function killPlayerMine():Void
 			if (tile.number > 0)
 				return;
 
-			// top
-			var top:Tile = getTile(tileX, tileY - 1);
-			if (!top.explored)
-			{
-				discover(tileX, tileY - 1);
-			}
-
-			// left
-			var left:Tile = getTile(tileX - 1, tileY);
-			if (!left.explored)
-			{
-				discover(tileX - 1, tileY);
-			}
-
-			// right
-			var right:Tile = getTile(tileX + 1, tileY);
-			if (!right.explored)
-			{
-				discover(tileX + 1, tileY);
-			}
-
-			// bot
-			var bot:Tile = getTile(tileX, tileY + 1);
-			if (!bot.explored)
-			{
-				discover(tileX, tileY + 1);
-			}
+			for (i in [ -1 , 0, 1])
+				for (j in [ -1, 0, 1])
+				{
+					var tile:Tile = getTile(tileX + i, tileY + j);
+					if ( tile != null && !tile.explored)
+						discover(tileX + i, tileY + j);
+				}
 		}
 	}
 

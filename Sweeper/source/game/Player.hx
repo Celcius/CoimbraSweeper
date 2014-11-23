@@ -63,7 +63,7 @@ class Player extends FlxSprite
 			{
 				var distance:Float = swipe.distance;
 
-				if (distance < 50)
+				if (distance < 30)
 					continue;
 
 				var angle:Float = swipe.angle;
