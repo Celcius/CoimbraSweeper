@@ -14,9 +14,9 @@ class Level4 extends Level
 		"tvSP.B.v*..t",
 		"tvS...**__.t",
 		"t>>_>>>^._*t",
-		"tb.._*....St",
-        "tttt_*....tt",
-		"tttt...*.*tt",
+		"tb...*....St",
+        "ttt*.*....tt",
+		"ttt*...*.*tt",
 		"tttttttttttt",
     ];
 
