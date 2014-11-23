@@ -12,7 +12,7 @@ class Level4 extends Level
 		"tv<<<*....tt",
 		"tvSS._.*...t",
 		"tvSP.B.v*..t",
-		"tvS...**__.t",
+		"tvS...*.__.t",
 		"t>>_>>>^._*t",
 		"tb...*....St",
         "ttt*.*....tt",
