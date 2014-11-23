@@ -126,7 +126,6 @@ class Game extends FlxState {
 		drawGrid(_level.getGrid());
         populateNumberGrid();
 
-		createRageBar();
 		_levelFinished = false;
 
 		_gameOver = false;
@@ -366,12 +365,6 @@ class Game extends FlxState {
         return FlxSort.byValues(Order, Obj1.y + obj1Offset, Obj2.y + obj2Offset);
 
 }
-
-	private function createRageBar():Void
-	{
-		Reg.rageBar = new RageBar();
-		add(Reg.rageBar);
-	}
 
 	private function createBear(X:Int, Y:Int):Void
 	{

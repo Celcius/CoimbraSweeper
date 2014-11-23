@@ -50,15 +50,6 @@ class Bear extends FlxSprite
 
 		updateDirection(duration, horMove, verMove);
 
-		Reg.rageBar.incrementRage();
-
-		if (Reg.rageBar.isMaxRage())
-		{
-			Reg.rageBar.shouldUpdate(false);
-
-			 Reg.game.killPlayerBear();
-
-		}
 	}
 
 	public function updateDirection(duration:Float, horMove:Float, verMove:Float)
