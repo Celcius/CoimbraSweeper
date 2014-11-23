@@ -35,7 +35,7 @@ class Game extends FlxState {
     private var gridH:Int;
     public var _grid:Array<Array<Tile>>;
     private var _level:Level;
-	private var _levels : Array<Level> = [ new Level1(), new Level2(),new Level3(),new Level4() ];
+	private var _levels : Array<Level> = [ new Level4()];//, new Level2(),new Level3(),new Level4() ];
 	private var _levelIndex : Int = 0;
 
     private var numberGrid:Array<Array<Int>>;
@@ -373,7 +373,7 @@ class Game extends FlxState {
 
 	private function createBear(X:Int, Y:Int):Void
 	{
-		Reg.bear = new Bear(getWorldX(X), getWorldX(Y));
+		Reg.bear = new Bear(getWorldX(X), getWorldY(Y));
 		playerLayer.add(Reg.bear);
 	}
 

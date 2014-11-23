@@ -35,7 +35,7 @@ class Bear extends FlxSprite
 
 	public function new(X:Float, Y:Float)
 	{
-		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y - 75);
+		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y - 25);
 		loadGraphic("assets/images/bear_sheet.png", false, SPRITE_WIDTH, SPRITE_HEIGHT);
 
 		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9], 5, true);
