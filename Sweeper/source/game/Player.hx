@@ -24,6 +24,12 @@ class Player extends FlxSprite
 	private var SPRITE_WIDTH = 92;
 	private var SPRITE_HEIGHT = 99;
 
+	var horDiff:Float = Game.BLOCK_WIDTH;
+	var verDiff:Float = Game.BLOCK_HEIGHT;
+
+	var horMove:Float = 0.0;
+	var verMove:Float = 0.0;
+
 
 	public function new(X:Float, Y:Float)
 	{
@@ -47,23 +53,21 @@ class Player extends FlxSprite
 		if (isStopped)
 			return;
 
-		var horDiff:Float = Game.BLOCK_WIDTH;
-		var verDiff:Float = Game.BLOCK_HEIGHT;
 
-		var horMove:Float = 0.0;
-		var verMove:Float = 0.0;
+		horMove = 0.0;
+		verMove = 0.0;
 
 		if (canMove)
 		{
 			for (swipe in FlxG.swipes)
 			{
 				var distance:Float = swipe.distance;
-				
+
 				if (distance < 50)
 					continue;
-				
+
 				var angle:Float = swipe.angle;
-				
+
 				if (angle > -30 && angle < 30)
 					verMove = -verDiff;
 				else if (angle > 150 || angle < -150) // edge case
@@ -94,7 +98,7 @@ class Player extends FlxSprite
 					verMove = verDiff;
 				}
 			}
-			
+
 
 			// check if should move - create action to move if yes
 			if ( this.shouldMove(horMove, verMove) )
@@ -114,8 +118,7 @@ class Player extends FlxSprite
 		if (currentTile != null){
 			currentTile.setExplored(true);
 		}
-		
-		super.update();
+
 
 		if (Game.instance.isBomb( currentTile) )
 		{
@@ -181,8 +184,6 @@ class Player extends FlxSprite
 	public function setStopped(stopped : Bool):Void
 	{
 		isStopped = stopped;
-		if(stopped)
-			this.velocity  = new FlxPoint(0, 0);
 	}
 
 }

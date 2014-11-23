@@ -31,11 +31,13 @@ class Bear extends FlxSprite
 	private var SPRITE_WIDTH = 91;
 	private var SPRITE_HEIGHT = 136;
 
+	private var currentTile:Tile;
+
 	public function new(X:Float, Y:Float)
 	{
 		super(X + (Game.BLOCK_WIDTH - SPRITE_WIDTH) / 2, Y - 75);
 		loadGraphic("assets/images/bear_sheet.png", false, SPRITE_WIDTH, SPRITE_HEIGHT);
-		
+
 		this.animation.add("iddle", [0, 1, 2,3,4,5,6,7,8,9], 5, true);
 		this.animation.play("iddle");
 
@@ -88,39 +90,39 @@ class Bear extends FlxSprite
 	{
 		super.update();
 
-		var tile : Tile = Game.instance.getTile(Game.instance.getGridX(anchorX), Game.instance.getGridY(anchorY));
-		if (Game.instance.isBomb( tile ))
+		currentTile = Game.instance.getTileFromWorld(anchorX, anchorY);
+		if (Game.instance.isBomb( currentTile ))
 		{
 			Game.instance.killBear();
 		}
-		else if (Game.instance.isBed(tile))
+		else if (Game.instance.isBed(currentTile))
 		{
-			var bed:Bed = cast (tile, Bed);
+			var bed:Bed = cast (currentTile, Bed);
 			bed.sleep();
-			
+
 			Game.instance.finishGame();
 		}
 
-		if (tile.className == "water" && canMove){
+		if (currentTile.className == "water" && canMove){
 			var horDiff:Float = Game.BLOCK_WIDTH;
 			var verDiff:Float = Game.BLOCK_HEIGHT;
 			var horMove:Float = 0.0;
 			var verMove:Float = 0.0;
 
-			switch(cast(tile,Water).direction){
+			switch(cast(currentTile,Water).direction){
 				case Water.LEFT: horMove = -horDiff;
 				case Water.RIGHT: horMove = horDiff;
 				case Water.UP: verMove = -verDiff;
 				case Water.DOWN: verMove = verDiff;
 			}
-			
+
 			if (shouldMove(horMove, verMove))
 				updateDirection(0.5, horMove, verMove);
 		}
 
 	}
-	
-		private function shouldMove(horMove:Float, verMove:Float):Bool
+
+	private function shouldMove(horMove:Float, verMove:Float):Bool
 	{
 		if (horMove == 0 && verMove == 0)
 			return false;
