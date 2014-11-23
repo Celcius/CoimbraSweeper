@@ -316,8 +316,8 @@ class Game extends FlxState {
 
 		for (touch in FlxG.touches.list)
 		{
-		if (touch.justPressed)
-		{
+			if (touch.justPressed)
+			{
 #else
 		if ( FlxG.keys.anyPressed(["R"]))
 		{
@@ -422,8 +422,14 @@ class Game extends FlxState {
 function checkFlagInput() : Void
 {
 #if android
-	if (FlxG.touches.list.length > 0)
+	if (FlxG.touches.list.length == 1)
 	{
+		for (swipe in FlxG.swipes)
+		{
+			if (swipe.distance > 30)
+				return;
+		}
+	
 #else
 	if (FlxG.mouse.justReleased)
 	{
@@ -442,14 +448,12 @@ function checkFlagInput() : Void
 
 
 	#if android
-			for (touch in FlxG.touches.list)
+			var touch:FlxTouch = FlxG.touches.getFirst();
+			if (touch.justReleased && tile.pixelsOverlapPoint(new FlxPoint(touch.x, touch.y)))
 			{
-				var touch:FlxTouch = FlxG.touches.getFirst();
-				if (touch.justReleased && tile.pixelsOverlapPoint(new FlxPoint(touch.x, touch.y)))
-				{
-					tile.plantFlag();
-					return;
-				}
+				
+				tile.plantFlag();
+				return;
 			}
 	#else
 
