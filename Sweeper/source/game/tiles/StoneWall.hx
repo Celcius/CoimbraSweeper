@@ -7,7 +7,7 @@ class StoneWall extends Tile
 {
 	public function new (X:Float , Y:Float)
 	{
-		super(X,Y, "grass");
+		super(X,Y, "stonewall");
 		loadGraphic( "assets/images/tiles/Stone_Block_Tall.png", true, 101, 171);
 		setExplored(false);
 		this.blocking = true;

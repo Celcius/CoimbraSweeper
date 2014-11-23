@@ -157,7 +157,11 @@ class Game extends FlxState {
                 var tile:Tile = Type.createInstance(classType, [getWorldX(j), getWorldY(i)] );
                 _grid[i][j] = tile;
                 _gridGroup.add(tile);
-                groundLayer.add(tile);
+                if (Std.is(tile, StoneWall)){
+                	playerLayer.add(tile);
+                } else {
+                	groundLayer.add(tile);
+                }
 
 				if (GMAPkey == 'P')
 					createPlayer(j, i); // X=j, Y=i
@@ -392,13 +396,13 @@ class Game extends FlxState {
 			#else
 				gameOver("You awoke the Bear!\nHis stomach feels warm...", "Press R to hire a new Ranger...");
 			#end
-			
+
 			remove(Reg.player);
 			Reg.player.destroy();
 			Reg.player = null;
 		}
 	}
-	
+
 public function killPlayerMine():Void
 	{
 		if (!_gameOver)
@@ -526,8 +530,8 @@ public function killPlayerMine():Void
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
-	
-	
+
+
 	public function waterExplosion(x:Float,y:Float,depth:Int) : Void
 	{
 			var xp : Explosion =  new Explosion(x, y, depth);
@@ -535,6 +539,6 @@ public function killPlayerMine():Void
 			add(xp);
 			xp.start(true, Explosion.TIME_SPAN);
 	}
-	
-	
+
+
 }

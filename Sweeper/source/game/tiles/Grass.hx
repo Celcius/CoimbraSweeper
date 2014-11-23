@@ -17,6 +17,7 @@ class Grass extends Tile
 		var changed:Bool = this.explored!=explored;
 
 		if (changed){
+			trace("loading graphic");
 			loadGraphic( "assets/images/tiles/Grass"+(explored ? "2":"")+"_Block.png", true, 101, 171);
 		}
 		super.setExplored(explored);
